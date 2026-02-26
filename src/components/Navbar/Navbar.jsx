@@ -1,8 +1,8 @@
 import { Link, NavLink } from "react-router";
 import logo from "../../assets/management.png";
-import { FiLogIn } from "react-icons/fi";
 import useIsActive from "../../Hooks/useIsActive";
 import { useState } from "react";
+import { IoLogIn } from "react-icons/io5";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -65,15 +65,23 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navLinks}</ul>
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end flex items-center gap-5">
+        {/* Profile */}
+        <div className="avatar cursor-pointer">
+          <div className="color-primary ring-offset-base-100 w-10 rounded-full ring-2 ring-offset-2">
+            <img
+              src="https://i.ibb.co.com/NPvRDsd/user.png"
+              alt="Default Profile Image"
+            />
+          </div>
+        </div>
         {/* LogIn Button */}
-        <button className="text-xl btn border-none">
-          <span className="flex items-center justify-center gap-2">
+        <button className="text-base btn border-none bg-[#2563eb] text-white">
+          <span className="flex items-center justify-center gap-1">
             <h4>Login</h4>
-            <FiLogIn className="w-5" />
+            <IoLogIn className="text-3xl" />
           </span>
         </button>
-        {/* Profile */}
       </div>
     </div>
   );
