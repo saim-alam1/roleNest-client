@@ -1,0 +1,4 @@
+const useIsActive = ({ isActive }) =>
+  `${isActive ? "text-[#2563EB] border-b-2 border-[#2563EB] bg-blue-50" : "text-[#374151]"} text-base focus:bg-transparent active:bg-transparent`;
+
+export default useIsActive;
