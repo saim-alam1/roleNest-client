@@ -8,7 +8,6 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(true); // navbar visibility
   const [scrollY, setScrollY] = useState(0); // last scroll position
-  const isGlassy = scrollY > 50 && show;
 
   const navLinks = ({ isGlassy }) => {
     return (
@@ -70,7 +69,7 @@ const Navbar = () => {
           : "bg-base-100 shadow-sm"
       }`}
     >
-      <div className="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+      <div className="navbar max-w-480 mx-auto px-4 sm:px-6 lg:px-10">
         {/* Start */}
         <div className="navbar-start">
           <div className={`dropdown ${open ? "dropdown-open" : ""}`}>
@@ -102,11 +101,7 @@ const Navbar = () => {
           <Link to="/">
             <span className="flex items-start justify-center gap-2">
               <img src={logo} alt="Website Logo" className="h-6" />
-              <h4
-                className={`text-xl font-bold transition-colors duration-300 ${
-                  isGlassy ? "text-white" : "text-black"
-                }`}
-              >
+              <h4 className="text-xl font-bold">
                 Role<span className="color-primary">Nest</span>
               </h4>
             </span>
