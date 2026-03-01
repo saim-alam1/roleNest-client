@@ -76,7 +76,7 @@ const Navbar = () => {
           </div>
         </div>
         {/* LogIn Button */}
-        <button className="text-base btn border-none bg-[#2563eb] text-white">
+        <button className="text-base btn border-none bg-[#2563eb] hover:bg-[#1550cf] delay-100 text-white">
           <span className="flex items-center justify-center gap-1">
             <h4>Login</h4>
             <IoLogIn className="text-3xl" />
