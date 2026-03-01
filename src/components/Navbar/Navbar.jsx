@@ -8,6 +8,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(true); // navbar visibility
   const [scrollY, setScrollY] = useState(0); // last scroll position
+  const isGlassy = scrollY > 50 && show;
 
   const navLinks = ({ isGlassy }) => {
     return (
@@ -95,13 +96,19 @@ const Navbar = () => {
               </svg>
             </div>
             <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
-              {navLinks({ isGlassy: scrollY > 50 && show })}
+              {navLinks({ isGlassy: scrollY > 50 && show, isMobile: true })}
             </ul>
           </div>
           <Link to="/">
             <span className="flex items-start justify-center gap-2">
               <img src={logo} alt="Website Logo" className="h-6" />
-              <h4 className="text-xl font-bold">RoleNest</h4>
+              <h4
+                className={`text-xl font-bold transition-colors duration-300 ${
+                  isGlassy ? "text-white" : "text-black" // change Role text color on glassy
+                }`}
+              >
+                Role<span className="color-primary">Nest</span>
+              </h4>
             </span>
           </Link>
         </div>
