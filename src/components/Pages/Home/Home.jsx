@@ -1,6 +1,7 @@
 import Banner from "../Banner/Banner";
 import Coupons from "../Coupons/Coupons";
-import AboutTheBuilding from "./AboutBuilding/AboutTheBuilding";
+import AboutTheBuilding from "../AboutBuilding/AboutTheBuilding";
+import ApartmentLocation from "../ApartmentLocation/ApartmentLocation";
 
 const Home = () => {
   return (
@@ -8,6 +9,7 @@ const Home = () => {
       <Banner />
       <AboutTheBuilding />
       <Coupons />
+      <ApartmentLocation />
     </div>
   );
 };
