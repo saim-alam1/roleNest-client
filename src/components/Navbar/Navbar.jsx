@@ -104,7 +104,7 @@ const Navbar = () => {
               <img src={logo} alt="Website Logo" className="h-6" />
               <h4
                 className={`text-xl font-bold transition-colors duration-300 ${
-                  isGlassy ? "text-white" : "text-black" // change Role text color on glassy
+                  isGlassy ? "text-white" : "text-black"
                 }`}
               >
                 Role<span className="color-primary">Nest</span>

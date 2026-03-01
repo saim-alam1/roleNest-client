@@ -14,7 +14,7 @@ const AboutTheBuilding = () => {
           <h2 className="text-4xl font-bold text-heading mb-4">
             About Our Building
           </h2>
-          <p className="description-text max-w-[80%] mx-auto text-lg leading-relaxed">
+          <p className="description-text max-w-[90%] mx-auto text-lg leading-relaxed">
             Our modern residential building is designed to provide comfort,
             security, and a premium living experience. Strategically located, it
             ensures convenience while maintaining a peaceful environment for
