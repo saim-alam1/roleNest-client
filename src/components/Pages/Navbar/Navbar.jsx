@@ -1,8 +1,8 @@
 import { Link, NavLink } from "react-router";
-import logo from "../../assets/management.png";
+import logo from "../../../assets/management.png";
 import { useState, useEffect } from "react";
 import { IoLogIn } from "react-icons/io5";
-import getNavLinkClasses from "../Utils/getNavLinkClasses";
+import getNavLinkClasses from "../../Utils/getNavLinkClasses";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -125,12 +125,15 @@ const Navbar = () => {
               />
             </div>
           </div>
-          <button className="text-base btn border-none bg-[#2563eb] hover:bg-[#1550cf] delay-100 text-white shadow-none">
+          <Link
+            to="/login"
+            className="text-base btn border-none bg-[#2563eb] hover:bg-[#1550cf] delay-100 text-white shadow-none"
+          >
             <span className="flex items-center justify-center gap-1">
               <h4>Login</h4>
               <IoLogIn className="text-3xl" />
             </span>
-          </button>
+          </Link>
         </div>
       </div>
     </div>

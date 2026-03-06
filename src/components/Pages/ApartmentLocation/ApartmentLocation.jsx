@@ -17,7 +17,7 @@ const ApartmentLocation = () => {
 
   return (
     <section className="w-full bg-base-200 py-12 px-4">
-      <div className="max-w-6xl mx-auto flex flex-col gap-8">
+      <div className="flex flex-col xl:grid xl:grid-cols-2 gap-8">
         {/* Text Section */}
         <div className="flex flex-col justify-center">
           <h2 className="text-3xl font-bold mb-4">Our Apartment Location</h2>
