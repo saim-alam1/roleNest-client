@@ -7,6 +7,17 @@ import loginAnimation from "../../../assets/Login.json";
 const Login = () => {
   const [show, setShow] = useState(false);
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+
+    const formData = new FormData(form);
+    const registerData = Object.fromEntries(formData.entries());
+
+    console.log(registerData);
+  };
+
   return (
     <div className="hero bg-base-200 min-h-screen max-w-7xl mx-auto rounded-b-xl">
       <div className="hero-content flex-col justify-around w-full lg:flex-row-reverse">
@@ -18,7 +29,7 @@ const Login = () => {
             <h3 className="text-center text-3xl font-bold my-2.5">
               Please Login
             </h3>
-            <form className="fieldset space-y-4">
+            <form onSubmit={handleLogin} className="fieldset space-y-4">
               {/* Email */}
               <div>
                 <label className="label">Email</label>
