@@ -13,19 +13,23 @@ const Login = () => {
         {/* Lottie Animation */}
         <Lottie animationData={loginAnimation} className="w-full max-w-md" />
         {/* Login Form */}
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+        <div className="card w-full max-w-sm shrink-0">
           <div className="card-body">
-            <h3 className="text-center text-3xl font-bold">Please Login</h3>
-            <form className="fieldset">
+            <h3 className="text-center text-3xl font-bold my-2.5">
+              Please Login
+            </h3>
+            <form className="fieldset space-y-4">
               {/* Email */}
-              <label className="label">Email</label>
-              <input
-                type="email"
-                className="input"
-                placeholder="Email"
-                name="email"
-                required
-              />
+              <div>
+                <label className="label">Email</label>
+                <input
+                  type="email"
+                  className="input"
+                  placeholder="Email"
+                  name="email"
+                  required
+                />
+              </div>
               {/* Password */}
               <div className="relative">
                 <label className="label">Password</label>
@@ -49,13 +53,16 @@ const Login = () => {
                   Don't have account?{" "}
                   <Link
                     className="link link-hover text-[#0055eb]"
-                    to={"/register"}
+                    to={"/auth-Layout/register"}
                   >
                     Register
                   </Link>
                 </p>
               </div>
-              <button type="submit" className="btn btn-neutral mt-4">
+              <button
+                type="submit"
+                className="text-base btn border-none bg-[#2563eb] hover:bg-[#1550cf] delay-100 text-white shadow-none"
+              >
                 Login
               </button>
             </form>

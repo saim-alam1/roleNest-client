@@ -126,7 +126,7 @@ const Navbar = () => {
             </div>
           </div>
           <Link
-            to="/login"
+            to="/auth-Layout/login"
             className="text-base btn border-none bg-[#2563eb] hover:bg-[#1550cf] delay-100 text-white shadow-none"
           >
             <span className="flex items-center justify-center gap-1">
