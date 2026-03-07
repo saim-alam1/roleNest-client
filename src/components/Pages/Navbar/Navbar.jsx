@@ -1,13 +1,41 @@
 import { Link, NavLink } from "react-router";
 import logo from "../../../assets/management.png";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { IoLogIn } from "react-icons/io5";
 import getNavLinkClasses from "../../Utils/getNavLinkClasses";
+import { AuthContext } from "../../../Contexts/AutContext";
+import { TbLogout } from "react-icons/tb";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(true); // navbar visibility
   const [scrollY, setScrollY] = useState(0); // last scroll position
+  const { user, logOutUser } = use(AuthContext);
+
+  // Logout
+  const handleLogout = () => {
+    logOutUser()
+      .then(() => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Logged out successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        Swal.fire({
+          title: "Error!",
+          text: `${errorMessage}`,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      });
+  };
 
   const navLinks = ({ isGlassy }) => {
     return (
@@ -119,13 +147,40 @@ const Navbar = () => {
         <div className="navbar-end flex items-center gap-5">
           <div className="avatar cursor-pointer">
             <div className="color-primary ring-offset-base-100 w-10 rounded-full ring-2 ring-offset-2">
-              <img
-                src="https://i.ibb.co.com/NPvRDsd/user.png"
-                alt="Default Profile Image"
-              />
+              {user ? (
+                <img
+                  referrerPolicy="no-referrer"
+                  src={user?.photoURL}
+                  alt="User Profile"
+                  className="rounded-full w-full h-full object-cover cursor-pointer"
+                />
+              ) : (
+                <img src="https://i.ibb.co.com/NPvRDsd/user.png" />
+              )}
             </div>
           </div>
-          <Link
+          {user ? (
+            <button
+              onClick={handleLogout}
+              className="text-base btn border-none bg-[#2563eb] hover:bg-[#1550cf] delay-100 text-white shadow-none"
+            >
+              <span className="flex items-center justify-center gap-1">
+                <h4>Logout</h4>
+                <TbLogout className="text-3xl" />
+              </span>
+            </button>
+          ) : (
+            <Link
+              to="/auth-Layout/login"
+              className="text-base btn border-none bg-[#2563eb] hover:bg-[#1550cf] delay-100 text-white shadow-none"
+            >
+              <span className="flex items-center justify-center gap-1">
+                <h4>Login</h4>
+                <IoLogIn className="text-3xl" />
+              </span>
+            </Link>
+          )}
+          {/* <Link
             to="/auth-Layout/login"
             className="text-base btn border-none bg-[#2563eb] hover:bg-[#1550cf] delay-100 text-white shadow-none"
           >
@@ -133,7 +188,7 @@ const Navbar = () => {
               <h4>Login</h4>
               <IoLogIn className="text-3xl" />
             </span>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>

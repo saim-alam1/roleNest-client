@@ -18,8 +18,10 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  console.log(user);
+
   // Create User
-  const createUser = (email, password) => {
+  const registerUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
@@ -59,7 +61,7 @@ const AuthProvider = ({ children }) => {
   const authData = {
     user,
     loading,
-    createUser,
+    registerUser,
     loginUser,
     loginWithGoogle,
     logOutUser,

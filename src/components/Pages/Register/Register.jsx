@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import Lottie from "lottie-react";
 import loginAnimation from "../../../assets/Login.json";
 import { useForm } from "react-hook-form";
 import uploadProfileImg from "../../../assets/image-upload-icon.png";
+import { AuthContext } from "../../../Contexts/AutContext";
+import Swal from "sweetalert2";
+import AuthLoading from "../Loadings/AuthLoading";
 
 const Register = () => {
   const [show, setShow] = useState(false);
+  const { loading, registerUser, updateUserProfile } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -15,8 +21,73 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const handleRegister = (data) => {
-    console.log(data);
+  if (loading) {
+    return <AuthLoading />;
+  }
+
+  // Monitoring the Icon Image Field
+  const image = watch("image");
+
+  const handleRegister = async (data) => {
+    const { email, name, password } = data;
+    const imageFile = data.image[0];
+    console.log(imageFile);
+
+    try {
+      // Upload image first
+      const formData = new FormData();
+      formData.append("image", imageFile);
+
+      const imageRes = await fetch(
+        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API}`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+
+      const imageData = await imageRes.json();
+
+      if (!imageData?.success) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Image upload failed!",
+        });
+        return;
+      }
+
+      const photoURL = imageData?.data?.display_url;
+
+      // Create user
+      const createdUser = await registerUser(email, password);
+      const registeredUser = createdUser?.user;
+
+      // Update profile
+      await updateUserProfile({
+        displayName: name,
+        photoURL: photoURL,
+      });
+
+      await registeredUser.reload();
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Registration successful",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+
+      navigate(`${location.state ? location.state : "/"}`);
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Registration Failed",
+        text: error.message,
+      });
+    }
   };
 
   return (
@@ -37,13 +108,26 @@ const Register = () => {
               {/* Image Upload Icon */}
               <label
                 htmlFor="profileImage"
-                className="flex flex-col items-center justify-center w-full h-40  cursor-pointer"
+                className="flex flex-col items-center justify-center w-full h-40 cursor-pointer"
               >
-                <img
-                  src={uploadProfileImg}
-                  alt="Image Upload Field"
-                  className="w-32 h-32 mb-2"
-                />
+                {image?.length > 0 ? (
+                  <img
+                    src={URL.createObjectURL(image[0])}
+                    alt="Preview"
+                    className="w-32 h-32 object-cover rounded-full"
+                  />
+                ) : (
+                  <>
+                    <img
+                      src={uploadProfileImg}
+                      alt="Upload"
+                      className="w-32 h-32 mb-2"
+                    />
+                    <p className="text-sm text-gray-500">
+                      Click or drag & drop to upload
+                    </p>
+                  </>
+                )}
                 <p className="text-sm text-gray-500">
                   Click or drag & drop to upload
                 </p>
@@ -57,12 +141,18 @@ const Register = () => {
                 />
               </label>
 
+              {errors.image && (
+                <p className="text-[16px] text-red-500 mt-1">
+                  Profile image is required
+                </p>
+              )}
+
               {/* Name */}
               <div>
                 <label className="label">Name</label>
                 <input
                   type="text"
-                  className="input w-full"
+                  className="input"
                   placeholder="Enter your name"
                   {...register("name", { required: true })}
                 />
@@ -77,7 +167,7 @@ const Register = () => {
                 <label className="label">Email</label>
                 <input
                   type="email"
-                  className="input w-full"
+                  className="input"
                   placeholder="Enter your email"
                   {...register("email", { required: true })}
                 />
@@ -90,6 +180,8 @@ const Register = () => {
               {/* Password */}
               <div>
                 <label className="label">Password</label>
+
+                {/* input + icon wrapper */}
                 <div className="relative">
                   <input
                     type={show ? "text" : "password"}
