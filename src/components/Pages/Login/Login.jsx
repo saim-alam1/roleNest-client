@@ -1,21 +1,47 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import Lottie from "lottie-react";
 import loginAnimation from "../../../assets/Login.json";
+import { useForm } from "react-hook-form";
+import { AuthContext } from "../../../Contexts/AutContext";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [show, setShow] = useState(false);
+  const { loginUser } = use(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = (data) => {
+    const { email, password } = data;
 
-    const form = e.target;
-
-    const formData = new FormData(form);
-    const registerData = Object.fromEntries(formData.entries());
-
-    console.log(registerData);
+    loginUser(email, password)
+      .then(() => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Logged in successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate(`${location.state ? location.state : "/"}`);
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        Swal.fire({
+          title: "Error!",
+          text: `${errorMessage}`,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      });
   };
 
   return (
@@ -29,7 +55,10 @@ const Login = () => {
             <h3 className="text-center text-3xl font-bold my-2.5">
               Please Login
             </h3>
-            <form onSubmit={handleLogin} className="fieldset space-y-4">
+            <form
+              onSubmit={handleSubmit(handleLogin)}
+              className="fieldset space-y-4"
+            >
               {/* Email */}
               <div>
                 <label className="label">Email</label>
@@ -37,10 +66,14 @@ const Login = () => {
                   type="email"
                   className="input"
                   placeholder="Email"
-                  name="email"
-                  required
+                  {...register("email", { required: true })}
                 />
               </div>
+              {errors.email && (
+                <span>
+                  <p className="text-red-500">Email field is required</p>
+                </span>
+              )}
               {/* Password */}
               <div className="relative">
                 <label className="label">Password</label>
@@ -48,8 +81,7 @@ const Login = () => {
                   type={show ? "text" : "password"}
                   className="input"
                   placeholder="Password"
-                  name="password"
-                  required
+                  {...register("password", { required: true })}
                 />
                 <button
                   onClick={() => setShow(!show)}
@@ -59,6 +91,11 @@ const Login = () => {
                   {show ? <FaEye /> : <FaEyeSlash />}
                 </button>
               </div>
+              {errors.password && (
+                <span>
+                  <p className="text-red-500">Password field is required</p>
+                </span>
+              )}
               <div>
                 <p className="text-[14px] pt-2">
                   Don't have account?{" "}

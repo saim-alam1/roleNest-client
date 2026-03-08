@@ -8,9 +8,11 @@ import uploadProfileImg from "../../../assets/image-upload-icon.png";
 import { AuthContext } from "../../../Contexts/AutContext";
 import Swal from "sweetalert2";
 import AuthLoading from "../Loadings/AuthLoading";
+import axios from "axios";
 
 const Register = () => {
   const [show, setShow] = useState(false);
+  const [profilePic, setProfilePic] = useState("");
   const { loading, registerUser, updateUserProfile } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
@@ -30,64 +32,43 @@ const Register = () => {
 
   const handleRegister = async (data) => {
     const { email, name, password } = data;
-    const imageFile = data.image[0];
-    console.log(imageFile);
 
-    try {
-      // Upload image first
-      const formData = new FormData();
-      formData.append("image", imageFile);
+    registerUser(email, password)
+      .then(async () => {
+        // Update User Info In Firebase
+        const userProfile = {
+          displayName: name,
+          photoURL: profilePic,
+        };
+        await updateUserProfile(userProfile)
+          .then(() => console.log("profile name picture updated"))
+          .catch((error) => console.log(error));
 
-      const imageRes = await fetch(
-        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API}`,
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
-
-      const imageData = await imageRes.json();
-
-      if (!imageData?.success) {
         Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Image upload failed!",
+          position: "center",
+          icon: "success",
+          title: "Registration successful",
+          showConfirmButton: false,
+          timer: 2500,
         });
-        return;
-      }
-
-      const photoURL = imageData?.data?.display_url;
-
-      // Create user
-      const createdUser = await registerUser(email, password);
-      const registeredUser = createdUser?.user;
-
-      // Update profile
-      await updateUserProfile({
-        displayName: name,
-        photoURL: photoURL,
+        navigate(`${location.state ? location.state : "/"}`);
+      })
+      .catch((error) => {
+        console.log(error);
       });
+  };
 
-      await registeredUser.reload();
+  const handleImageUpload = async (e) => {
+    const image = e.target.files[0];
+    // console.log(image);
+    if (!image) return;
+    const formData = new FormData();
+    formData.append("image", image);
 
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Registration successful",
-        showConfirmButton: false,
-        timer: 2500,
-      });
+    const imgUploadURL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API}`;
 
-      navigate(`${location.state ? location.state : "/"}`);
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: "error",
-        title: "Registration Failed",
-        text: error.message,
-      });
-    }
+    const res = await axios.post(imgUploadURL, formData);
+    setProfilePic(res.data?.data?.display_url);
   };
 
   return (
@@ -128,16 +109,16 @@ const Register = () => {
                     </p>
                   </>
                 )}
-                <p className="text-sm text-gray-500">
-                  Click or drag & drop to upload
-                </p>
 
                 <input
                   id="profileImage"
                   type="file"
                   accept="image/*"
                   className="hidden"
-                  {...register("image", { required: true })}
+                  {...register("image", {
+                    required: true,
+                    onChange: handleImageUpload,
+                  })}
                 />
               </label>
 

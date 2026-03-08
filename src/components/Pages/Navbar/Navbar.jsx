@@ -146,18 +146,16 @@ const Navbar = () => {
         {/* End */}
         <div className="navbar-end flex items-center gap-5">
           <div className="avatar cursor-pointer">
-            <div className="color-primary ring-offset-base-100 w-10 rounded-full ring-2 ring-offset-2">
-              {user ? (
+            {user && (
+              <div className="color-primary ring-offset-base-100 w-10 rounded-full ring-2 ring-offset-2">
                 <img
                   referrerPolicy="no-referrer"
                   src={user?.photoURL}
                   alt="User Profile"
-                  className="rounded-full w-full h-full object-cover cursor-pointer"
+                  className="rounded-full w-full h-full object-center cursor-pointer"
                 />
-              ) : (
-                <img src="https://i.ibb.co.com/NPvRDsd/user.png" />
-              )}
-            </div>
+              </div>
+            )}
           </div>
           {user ? (
             <button
