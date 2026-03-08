@@ -5,6 +5,9 @@ import Apartment from "../components/Pages/Apartment/Apartment";
 import Login from "../components/Pages/Login/Login";
 import AuthLayout from "../components/Layouts/AuthLayout/AuthLayout";
 import Register from "../components/Pages/Register/Register";
+import DashBoardLayout from "../components/Layouts/DashBoardLayout/DashBoardLayout";
+import DashboardHome from "../components/Pages/Dashboard/DashboardHome/DashboardHome";
+import PrivateRoutes from "../components/Pages/PrivateRoutes/PrivateRoutes";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +35,20 @@ const router = createBrowserRouter([
       {
         path: "register",
         Component: Register,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoutes>
+        <DashBoardLayout />
+      </PrivateRoutes>
+    ),
+    children: [
+      {
+        index: true,
+        Component: DashboardHome,
       },
     ],
   },
