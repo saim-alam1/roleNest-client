@@ -6,10 +6,11 @@ import loginAnimation from "../../../assets/Login.json";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../Contexts/AutContext";
 import Swal from "sweetalert2";
+import Loading from "../Loadings/Loading";
 
 const Login = () => {
   const [show, setShow] = useState(false);
-  const { loginUser } = use(AuthContext);
+  const { loading, loginUser } = use(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const {
@@ -17,6 +18,10 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  if (loading) {
+    return <Loading />;
+  }
 
   const handleLogin = (data) => {
     const { email, password } = data;

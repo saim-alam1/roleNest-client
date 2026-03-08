@@ -145,32 +145,56 @@ const Navbar = () => {
 
         {/* End */}
         <div className="navbar-end flex items-center gap-5">
-          <div className="avatar cursor-pointer">
+          <div className="dropdown dropdown-end">
             {user && (
-              <div className="color-primary ring-offset-base-100 w-10 rounded-full ring-2 ring-offset-2">
-                <img
-                  referrerPolicy="no-referrer"
-                  src={user?.photoURL}
-                  alt="User Profile"
-                  className="rounded-full w-full h-full object-center cursor-pointer"
-                />
-              </div>
+              <>
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="avatar cursor-pointer"
+                >
+                  <div className="color-primary ring-offset-base-100 w-10 rounded-full ring-2 ring-offset-2">
+                    <img
+                      referrerPolicy="no-referrer"
+                      src={user?.photoURL}
+                      alt="User Profile"
+                      className="rounded-full w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content mt-3 z-100 p-2 shadow bg-base-100 rounded-box w-52"
+                >
+                  {/* Username */}
+                  <li className="px-3 py-2 font-semibold text-gray-700 cursor-default text-[16px]">
+                    {user?.displayName}
+                  </li>
+
+                  <div className="divider my-1"></div>
+
+                  {/* Dashboard */}
+                  <li>
+                    <Link className="text-[16px]" to="/dashboard">
+                      Dashboard
+                    </Link>
+                  </li>
+
+                  {/* Logout */}
+                  <li>
+                    <button className="text-[16px]" onClick={handleLogout}>
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </>
             )}
           </div>
-          {user ? (
-            <button
-              onClick={handleLogout}
-              className="text-base btn border-none bg-[#2563eb] hover:bg-[#1550cf] delay-100 text-white shadow-none"
-            >
-              <span className="flex items-center justify-center gap-1">
-                <h4>Logout</h4>
-                <TbLogout className="text-3xl" />
-              </span>
-            </button>
-          ) : (
+          {!user && (
             <Link
               to="/auth-Layout/login"
-              className="text-base btn border-none bg-[#2563eb] hover:bg-[#1550cf] delay-100 text-white shadow-none"
+              className="text-base btn border-none bg-[#2563eb] hover:bg-[#1550cf] text-white"
             >
               <span className="flex items-center justify-center gap-1">
                 <h4>Login</h4>
@@ -178,15 +202,6 @@ const Navbar = () => {
               </span>
             </Link>
           )}
-          {/* <Link
-            to="/auth-Layout/login"
-            className="text-base btn border-none bg-[#2563eb] hover:bg-[#1550cf] delay-100 text-white shadow-none"
-          >
-            <span className="flex items-center justify-center gap-1">
-              <h4>Login</h4>
-              <IoLogIn className="text-3xl" />
-            </span>
-          </Link> */}
         </div>
       </div>
     </div>

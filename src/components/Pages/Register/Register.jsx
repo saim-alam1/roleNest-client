@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import uploadProfileImg from "../../../assets/image-upload-icon.png";
 import { AuthContext } from "../../../Contexts/AutContext";
 import Swal from "sweetalert2";
-import AuthLoading from "../Loadings/AuthLoading";
+import Loading from "../Loadings/Loading";
 import axios from "axios";
 
 const Register = () => {
@@ -24,7 +24,7 @@ const Register = () => {
   } = useForm();
 
   if (loading) {
-    return <AuthLoading />;
+    return <Loading />;
   }
 
   // Monitoring the Icon Image Field
