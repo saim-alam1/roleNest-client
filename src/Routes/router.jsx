@@ -8,6 +8,8 @@ import Register from "../components/Pages/Register/Register";
 import DashBoardLayout from "../components/Layouts/DashBoardLayout/DashBoardLayout";
 import DashboardHome from "../components/Pages/Dashboard/DashboardHome/DashboardHome";
 import PrivateRoutes from "../components/Pages/PrivateRoutes/PrivateRoutes";
+import MyProfile from "../components/Pages/Dashboard/MyProfile/MyProfile";
+import Announcement from "../components/Pages/Dashboard/Announcement/Announcement";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +51,14 @@ const router = createBrowserRouter([
       {
         index: true,
         Component: DashboardHome,
+      },
+      {
+        path: "my-profile",
+        Component: MyProfile,
+      },
+      {
+        path: "announcement",
+        Component: Announcement,
       },
     ],
   },
