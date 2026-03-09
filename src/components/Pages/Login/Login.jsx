@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import Lottie from "lottie-react";
 import loginAnimation from "../../../assets/Login.json";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "../../../Contexts/AutContext";
+import { AuthContext } from "../../../Contexts/AuthContext";
 import Swal from "sweetalert2";
 import Loading from "../Loadings/Loading";
 

@@ -1,15 +1,39 @@
 import { use, useState } from "react";
-import { AuthContext } from "../../../Contexts/AutContext";
+import { AuthContext } from "../../../Contexts/AuthContext";
 import { Link, NavLink, Outlet } from "react-router";
 import logo from "../../../assets/management.png";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
 import { TfiAnnouncement } from "react-icons/tfi";
 import useIsActive from "../../../Hooks/useIsActive";
+import Swal from "sweetalert2";
 
 const DashBoardLayout = () => {
-  const { user } = use(AuthContext);
+  const { user, logOutUser } = use(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleLogOut = () => {
+    logOutUser()
+      .then(() => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Logged out successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        Swal.fire({
+          title: "Error!",
+          text: `${errorMessage}`,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      });
+  };
 
   return (
     <div className="flex">
@@ -17,7 +41,7 @@ const DashBoardLayout = () => {
       <aside
         className={`
           fixed lg:static z-50 top-0 left-0 h-screen w-64 px-4 py-8 overflow-y-auto bg-white border-r border-gray-200
-          transform transition-transform duration-300
+          transform transition-transform duration-300 flex flex-col
           ${isOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0
         `}
       >
@@ -61,6 +85,17 @@ const DashBoardLayout = () => {
             <TfiAnnouncement style={{ marginRight: "8px" }} /> Announcement
           </NavLink>
         </nav>
+
+        <div className="flex items-end justify-center h-full ">
+          <span className="border-t border-[#6b7280] w-full">
+            <button
+              onClick={handleLogOut}
+              className="btn border-none w-full my-1.5"
+            >
+              Logout
+            </button>
+          </span>
+        </div>
       </aside>
 
       {/* Main Content */}

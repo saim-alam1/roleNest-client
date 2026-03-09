@@ -3,7 +3,7 @@ import logo from "../../../assets/management.png";
 import { useState, useEffect, use } from "react";
 import { IoLogIn } from "react-icons/io5";
 import getNavLinkClasses from "../../Utils/getNavLinkClasses";
-import { AuthContext } from "../../../Contexts/AutContext";
+import { AuthContext } from "../../../Contexts/AuthContext";
 import Swal from "sweetalert2";
 
 const Navbar = () => {

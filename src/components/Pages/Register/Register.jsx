@@ -5,7 +5,7 @@ import Lottie from "lottie-react";
 import loginAnimation from "../../../assets/Login.json";
 import { useForm } from "react-hook-form";
 import uploadProfileImg from "../../../assets/image-upload-icon.png";
-import { AuthContext } from "../../../Contexts/AutContext";
+import { AuthContext } from "../../../Contexts/AuthContext";
 import Swal from "sweetalert2";
 import Loading from "../Loadings/Loading";
 import axios from "axios";

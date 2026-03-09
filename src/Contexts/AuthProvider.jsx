@@ -8,7 +8,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
-import { AuthContext } from "./AutContext";
+import { AuthContext } from "./AuthContext";
 import { useEffect, useState } from "react";
 import { GoogleAuthProvider } from "firebase/auth/web-extension";
 
