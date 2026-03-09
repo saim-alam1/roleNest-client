@@ -9,6 +9,7 @@ import { AuthContext } from "../../../Contexts/AuthContext";
 import Swal from "sweetalert2";
 import Loading from "../Loadings/Loading";
 import axios from "axios";
+import GoogleLogin from "../Shared/GoogleLogin/GoogleLogin";
 
 const Register = () => {
   const [show, setShow] = useState(false);
@@ -211,6 +212,11 @@ const Register = () => {
                 Register
               </button>
             </form>
+            <div className="text-center">
+              <p className="font-bold text-xl py-1.5">Or</p>
+              {/* Google Button */}
+              <GoogleLogin />
+            </div>
           </div>
         </div>
       </div>

@@ -2,7 +2,11 @@ import { use, useState } from "react";
 import { AuthContext } from "../../../Contexts/AuthContext";
 import { Link, NavLink, Outlet } from "react-router";
 import logo from "../../../assets/management.png";
-import { MdOutlineSpaceDashboard } from "react-icons/md";
+import {
+  MdHistory,
+  MdOutlinePayment,
+  MdOutlineSpaceDashboard,
+} from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
 import { TfiAnnouncement } from "react-icons/tfi";
 import useIsActive from "../../../Hooks/useIsActive";
@@ -81,8 +85,14 @@ const DashBoardLayout = () => {
           <NavLink to="/dashboard/my-profile" className={useIsActive}>
             <FaRegUser style={{ marginRight: "8px" }} /> My Profile
           </NavLink>
-          <NavLink to="/dashboard/announcement" className={useIsActive}>
-            <TfiAnnouncement style={{ marginRight: "8px" }} /> Announcement
+          <NavLink to="/dashboard/announcements" className={useIsActive}>
+            <TfiAnnouncement style={{ marginRight: "8px" }} /> Announcements
+          </NavLink>
+          <NavLink to="/dashboard/make-payment" className={useIsActive}>
+            <MdOutlinePayment style={{ marginRight: "8px" }} /> Make Payment
+          </NavLink>
+          <NavLink to="/dashboard/payment-history" className={useIsActive}>
+            <MdHistory style={{ marginRight: "8px" }} /> Payment History
           </NavLink>
         </nav>
 

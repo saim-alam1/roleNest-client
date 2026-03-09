@@ -8,8 +8,10 @@ import Register from "../components/Pages/Register/Register";
 import DashBoardLayout from "../components/Layouts/DashBoardLayout/DashBoardLayout";
 import DashboardHome from "../components/Pages/Dashboard/DashboardHome/DashboardHome";
 import MyProfile from "../components/Pages/Dashboard/MyProfile/MyProfile";
-import Announcement from "../components/Pages/Dashboard/Announcement/Announcement";
 import PrivateRoutes from "../Contexts/PrivateRoutes/PrivateRoutes";
+import Announcements from "../components/Pages/Dashboard/Announcements/Announcements";
+import MakePayment from "../components/Pages/Dashboard/MakePayment/MakePayment";
+import PaymentHistory from "../components/Pages/Dashboard/PaymentHistory/PaymentHistory";
 
 const router = createBrowserRouter([
   {
@@ -57,8 +59,16 @@ const router = createBrowserRouter([
         Component: MyProfile,
       },
       {
-        path: "announcement",
-        Component: Announcement,
+        path: "announcements",
+        Component: Announcements,
+      },
+      {
+        path: "make-payment",
+        Component: MakePayment,
+      },
+      {
+        path: "payment-history",
+        Component: PaymentHistory,
       },
     ],
   },
