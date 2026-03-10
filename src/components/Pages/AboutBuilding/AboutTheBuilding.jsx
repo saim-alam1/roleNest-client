@@ -7,7 +7,7 @@ import {
 
 const AboutTheBuilding = () => {
   return (
-    <section className="bg-white py-20">
+    <section className="bg-white my-20">
       <div className="max-w-11/12 mx-auto">
         {/* Section Header */}
         <div className="text-center mb-14">
