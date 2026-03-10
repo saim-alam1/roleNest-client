@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import Loading from "../Loadings/Loading";
 import Card from "../Shared/Card/Card";
+import useAxios from "../../../Hooks/useAxios";
 
 const Apartment = () => {
+  const axiosInstance = useAxios();
   const {
     data: apartmentsData = [],
     isLoading,
@@ -11,7 +12,7 @@ const Apartment = () => {
   } = useQuery({
     queryKey: ["apartments"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:3000/apartments");
+      const res = await axiosInstance.get("http://localhost:3000/apartments");
       return res?.data;
     },
   });

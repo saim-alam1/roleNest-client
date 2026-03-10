@@ -1,16 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useParams } from "react-router";
 import Loading from "../../Loadings/Loading";
+import useAxios from "../../../../Hooks/useAxios";
 
 const CardDetails = () => {
   const { id } = useParams();
+  const axiosInstance = useAxios();
 
   const { data: apartment = [], isLoading } = useQuery({
     queryKey: ["apartment", id],
     queryFn: async () => {
-      const res = await axios(`http://localhost:3000/apartments/${id}`);
-      return res.data;
+      const res = await axiosInstance(`http://localhost:3000/apartments/${id}`);
+      return res?.data;
     },
   });
 
@@ -38,11 +39,8 @@ const CardDetails = () => {
             Rent: <span className="font-semibold text-red-500">{rent}৳</span>
           </p>
           <div className="card-actions">
-            <button
-              // onClick={() => navigate(-1)}
-              className="text-lg btn border-none shadow-none bg-green-600 text-white hover:bg-green-700"
-            >
-              Go Back
+            <button className="text-base btn border-none bg-[#2563eb] hover:bg-[#1550cf] delay-100 text-white shadow-none">
+              Agreement
             </button>
           </div>
         </div>
