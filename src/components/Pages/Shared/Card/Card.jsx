@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 const Card = ({ apartmentsCard }) => {
   console.log(apartmentsCard);
 
@@ -6,10 +8,12 @@ const Card = ({ apartmentsCard }) => {
 
   return (
     <div className="overflow-hidden bg-base-100 shadow-lg border border-gray-200 rounded-xl">
-      <img
-        className="object-cover w-full h-64"
+      <motion.img
+        className="h-64 object-cover w-full"
         src={apartmentImage}
         alt="Apartment Images"
+        whileHover={{ scale: 1.1, marginBottom: "4px" }}
+        transition={{ type: "spring", stiffness: 300 }}
       />
 
       <div className="p-6 text-heading">
