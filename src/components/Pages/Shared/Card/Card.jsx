@@ -1,13 +1,15 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router";
 
 const Card = ({ apartmentsCard }) => {
-  console.log(apartmentsCard);
-
-  const { apartmentImage, apartmentNo, blockName, floorNo, rent } =
+  const { _id, apartmentImage, apartmentNo, blockName, floorNo, rent } =
     apartmentsCard;
 
   return (
-    <div className="overflow-hidden bg-base-100 shadow-lg border border-gray-200 rounded-xl">
+    <Link
+      to={`/apartment/${_id}`}
+      className="overflow-hidden bg-base-100 shadow-lg border border-gray-200 rounded-xl"
+    >
       <motion.img
         className="h-64 object-cover w-full"
         src={apartmentImage}
@@ -33,7 +35,7 @@ const Card = ({ apartmentsCard }) => {
           </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

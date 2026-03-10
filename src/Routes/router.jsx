@@ -12,6 +12,7 @@ import PrivateRoutes from "../Contexts/PrivateRoutes/PrivateRoutes";
 import Announcements from "../components/Pages/Dashboard/Announcements/Announcements";
 import MakePayment from "../components/Pages/Dashboard/MakePayment/MakePayment";
 import PaymentHistory from "../components/Pages/Dashboard/PaymentHistory/PaymentHistory";
+import CardDetails from "../components/Pages/Shared/CardDetails/CardDetails";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,14 @@ const router = createBrowserRouter([
       {
         path: "/apartment",
         Component: Apartment,
+      },
+      {
+        path: "/apartment/:id",
+        element: (
+          <PrivateRoutes>
+            <CardDetails />
+          </PrivateRoutes>
+        ),
       },
     ],
   },
