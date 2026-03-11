@@ -2,9 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import Loading from "../Loadings/Loading";
 import Card from "../Shared/Card/Card";
 import useAxios from "../../../Hooks/useAxios";
+import { useState } from "react";
 
 const Apartment = () => {
   const axiosInstance = useAxios();
+  const [alreadyRequested, setAlreadyRequested] = useState(false);
   const {
     data: apartmentsData = [],
     isLoading,
@@ -35,7 +37,12 @@ const Apartment = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {apartmentsData.map((apartmentsCard) => (
-          <Card key={apartmentsCard._id} apartmentsCard={apartmentsCard} />
+          <Card
+            key={apartmentsCard._id}
+            apartmentsCard={apartmentsCard}
+            alreadyRequested={alreadyRequested}
+            setAlreadyRequested={setAlreadyRequested}
+          />
         ))}
       </div>
     </section>
