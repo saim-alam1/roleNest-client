@@ -17,6 +17,7 @@ import CardDetails from "../components/Pages/Shared/CardDetails/CardDetails";
 const router = createBrowserRouter([
   {
     path: "/",
+    // errorElement:,
     element: <HomeLayout />,
     children: [
       {

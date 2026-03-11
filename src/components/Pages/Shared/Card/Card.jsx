@@ -1,15 +1,15 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router";
 
 const Card = ({ apartmentsCard }) => {
-  const { _id, apartmentImage, apartmentNo, blockName, floorNo, rent } =
+  const { apartmentImage, apartmentNo, blockName, floorNo, rent } =
     apartmentsCard;
 
+  const handleAgreement = () => {
+    console.log("agreement");
+  };
+
   return (
-    <Link
-      to={`/apartment/${_id}`}
-      className="overflow-hidden bg-base-100 shadow-lg border border-gray-200 rounded-xl"
-    >
+    <section className="overflow-hidden bg-base-100 shadow-lg border border-gray-200 rounded-xl">
       <motion.img
         className="h-64 object-cover w-full"
         src={apartmentImage}
@@ -18,24 +18,33 @@ const Card = ({ apartmentsCard }) => {
         transition={{ type: "spring", stiffness: 300 }}
       />
 
-      <div className="p-6 text-heading">
-        <div className="text-center space-y-2 text-[16px]">
-          <p className="font-semibold">
-            Apartment No: <span className="color-primary">{apartmentNo}</span>
-          </p>
-          <p className="font-semibold">
-            Block Name: <span className="color-primary">{blockName}</span>
-          </p>
-          <p className="font-semibold">
-            Floor No: <span className="color-primary">{floorNo}</span>
-          </p>
-          <p className="font-semibold">
-            Rent:
-            <span className="text-red-500"> {rent}৳</span>
-          </p>
+      <div className="mt-6 text-heading text-center flex items-center justify-center gap-4">
+        {/* Box 1 */}
+        <div className=" space-y-2 text-lg font-semibold">
+          <p>Apartment No:</p>
+          <p>Block Name :</p>
+          <p>Floor No:</p>
+          <p>Rent Amount:</p>
+        </div>
+
+        {/* Box 2 */}
+        <div className="text-heading flex flex-col text-lg space-y-2">
+          <p className="color-primary text-lg font-semibold">{apartmentNo}</p>
+          <p className="color-primary text-lg font-semibold">{floorNo}</p>
+          <p className="color-primary text-lg font-semibold">{blockName}</p>
+          <p className="text-red-500"> {rent}৳</p>
         </div>
       </div>
-    </Link>
+      {/* Button */}
+      <div className="w-11/12 mx-auto my-4">
+        <button
+          onClick={handleAgreement}
+          className="text-base mt-1 btn border-none bg-[#2563eb] hover:bg-[#1550cf] delay-100 text-white shadow-none w-full"
+        >
+          Agreement
+        </button>
+      </div>
+    </section>
   );
 };
 
