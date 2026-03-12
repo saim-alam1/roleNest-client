@@ -44,7 +44,7 @@ const Register = () => {
           photoURL: profilePic,
         };
         await updateUserProfile(userProfile)
-          .then(() => console.log("profile name picture updated"))
+          .then(() => console.log("profile picture updated"))
           .catch((error) => console.log(error));
 
         // Collect User's Role
@@ -55,7 +55,7 @@ const Register = () => {
         const postUserInfo = await axiosInstance.post("/users", userInfo);
 
         Swal.fire({
-          position: "center",
+          position: "top-end",
           icon: "success",
           title: "Registration successful",
           showConfirmButton: false,

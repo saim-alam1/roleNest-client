@@ -3,19 +3,29 @@ import { AuthContext } from "../../../../Contexts/AuthContext";
 import Loading from "../../Loadings/Loading";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router";
+import useAxios from "../../../../Hooks/useAxios";
 
 const GoogleLogin = () => {
   const { loading, loginWithGoogle } = use(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosInstance = useAxios();
 
   if (loading) return <Loading />;
 
   const handleGoogleLogin = () => {
     loginWithGoogle()
-      .then(() => {
+      .then(async (result) => {
+        const user = result.user;
+        const userInfo = {
+          userName: user?.displayName,
+          userEmail: user?.email,
+        };
+
+        const res = await axiosInstance.post("users", userInfo);
+
         Swal.fire({
-          position: "center",
+          position: "top-end",
           icon: "success",
           title: "Login successful",
           showConfirmButton: false,
@@ -26,6 +36,7 @@ const GoogleLogin = () => {
       .catch((error) => {
         const errorMessage = error.message;
         Swal.fire({
+          position: "top-end",
           title: "Error!",
           text: `${errorMessage}`,
           icon: "error",
