@@ -29,6 +29,7 @@ const Card = ({ apartmentsCard, alreadyRequested, setAlreadyRequested }) => {
     agreementMutation.mutate(agreementData);
   };
 
+  // Implement JWT
   const agreementMutation = useMutation({
     mutationFn: async (data) =>
       await axios.post("http://localhost:3000/resident", data),

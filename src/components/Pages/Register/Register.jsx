@@ -45,6 +45,8 @@ const Register = () => {
           .then(() => console.log("profile name picture updated"))
           .catch((error) => console.log(error));
 
+        // Collect User's Role
+
         Swal.fire({
           position: "center",
           icon: "success",

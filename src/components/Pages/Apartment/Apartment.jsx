@@ -10,12 +10,11 @@ const Apartment = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 6;
 
+  // Apartment Count Number
   const { data: countData = {} } = useQuery({
     queryKey: ["apartment-count"],
     queryFn: async () => {
-      const res = await axiosInstance.get(
-        "http://localhost:3000/apartment-count",
-      );
+      const res = await axiosInstance.get("/apartment-count");
       return res.data;
     },
   });
@@ -24,6 +23,7 @@ const Apartment = () => {
   const totalPages = Math.ceil(totalApartments / itemsPerPage);
   const pages = [...Array(totalPages).keys()];
 
+  // Apartment Data
   const {
     data: apartmentsData = [],
     isLoading,
@@ -32,7 +32,7 @@ const Apartment = () => {
     queryKey: ["apartments", currentPage],
     queryFn: async () => {
       const res = await axiosInstance.get(
-        `http://localhost:3000/apartments?page=${currentPage}&limit=${itemsPerPage}`,
+        `/apartments?page=${currentPage}&limit=${itemsPerPage}`,
       );
       return res?.data;
     },
@@ -41,9 +41,14 @@ const Apartment = () => {
   if (isLoading) return <Loading />;
   if (error) return "An error has occurred: " + error.message;
 
+  const handleRentRange = (e) => {
+    const userRange = parseInt(e.target.value);
+    console.log(userRange);
+  };
+
   return (
     <section className="my-28 px-3">
-      <div className="text-center mb-14">
+      <div className="text-center">
         <h2 className="text-4xl font-bold text-heading mb-4">
           Available Apartments
         </h2>
@@ -52,6 +57,17 @@ const Apartment = () => {
           Start booking hot deals currently available. Use coupon codes to get
           exclusive discounts on you dream apartments.
         </p>
+      </div>
+      <div className="my-14 text-heading text-center max-w-9/12 mx-auto">
+        <h4 className="text-[16px] font-bold text-heading mb-4">
+          Search Your Rent Range
+        </h4>
+        <input
+          type="number"
+          onChange={handleRentRange}
+          placeholder="Rent Range"
+          className="block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+        />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
