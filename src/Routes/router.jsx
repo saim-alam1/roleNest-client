@@ -12,11 +12,12 @@ import PrivateRoutes from "../Contexts/PrivateRoutes/PrivateRoutes";
 import Announcements from "../components/Pages/Dashboard/Announcements/Announcements";
 import MakePayment from "../components/Pages/Dashboard/MakePayment/MakePayment";
 import PaymentHistory from "../components/Pages/Dashboard/PaymentHistory/PaymentHistory";
+import ErrorComponent from "../components/Pages/Shared/Error/ErrorComponent";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    // errorElement:,
+    errorElement: <ErrorComponent />,
     element: <HomeLayout />,
     children: [
       {
