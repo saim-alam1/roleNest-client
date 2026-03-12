@@ -7,14 +7,33 @@ import { useState } from "react";
 const Apartment = () => {
   const axiosInstance = useAxios();
   const [alreadyRequested, setAlreadyRequested] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 6;
+
+  const { data: countData = {} } = useQuery({
+    queryKey: ["apartment-count"],
+    queryFn: async () => {
+      const res = await axiosInstance.get(
+        "http://localhost:3000/apartment-count",
+      );
+      return res.data;
+    },
+  });
+
+  const totalApartments = countData?.count || 0;
+  const totalPages = Math.ceil(totalApartments / itemsPerPage);
+  const pages = [...Array(totalPages).keys()];
+
   const {
     data: apartmentsData = [],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["apartments"],
+    queryKey: ["apartments", currentPage],
     queryFn: async () => {
-      const res = await axiosInstance.get("http://localhost:3000/apartments");
+      const res = await axiosInstance.get(
+        `http://localhost:3000/apartments?page=${currentPage}&limit=${itemsPerPage}`,
+      );
       return res?.data;
     },
   });
@@ -44,6 +63,38 @@ const Apartment = () => {
             setAlreadyRequested={setAlreadyRequested}
           />
         ))}
+      </div>
+      <div className="flex justify-center mt-10 gap-2 flex-wrap">
+        {/* Prev Button */}
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 0}
+          className="btn btn-sm"
+        >
+          ← Prev
+        </button>
+
+        {/* Page Numbers */}
+        {pages.map((page) => (
+          <button
+            key={page}
+            onClick={() => setCurrentPage(page)}
+            className={`btn btn-sm ${
+              currentPage === page ? "btn-primary" : ""
+            }`}
+          >
+            {page + 1}
+          </button>
+        ))}
+
+        {/* Next Button */}
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === totalPages - 1}
+          className="btn btn-sm"
+        >
+          Next →
+        </button>
       </div>
     </section>
   );
