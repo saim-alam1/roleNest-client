@@ -6,8 +6,8 @@ import loginAnimation from "../../../assets/Login.json";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../Contexts/AuthContext";
 import Swal from "sweetalert2";
-import Loading from "../Loadings/Loading";
 import GoogleLogin from "../Shared/GoogleLogin/GoogleLogin";
+import Loading from "../Shared/Loadings/Loading";
 
 const Login = () => {
   const [show, setShow] = useState(false);

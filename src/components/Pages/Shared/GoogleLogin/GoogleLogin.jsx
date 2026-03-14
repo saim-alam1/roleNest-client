@@ -1,9 +1,9 @@
 import { use } from "react";
 import { AuthContext } from "../../../../Contexts/AuthContext";
-import Loading from "../../Loadings/Loading";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router";
 import useAxios from "../../../../Hooks/useAxios";
+import Loading from "../Loadings/Loading";
 
 const GoogleLogin = () => {
   const { loading, loginWithGoogle } = use(AuthContext);

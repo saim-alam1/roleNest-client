@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import Loading from "../Loadings/Loading";
 import Card from "../Shared/Card/Card";
 import useAxios from "../../../Hooks/useAxios";
 import { useState } from "react";
 import Lottie from "lottie-react";
 import noDataFound from "../../../assets/noDataFound.json";
+import Loading from "../Shared/Loadings/Loading";
 
 const Apartment = () => {
   const axiosInstance = useAxios();

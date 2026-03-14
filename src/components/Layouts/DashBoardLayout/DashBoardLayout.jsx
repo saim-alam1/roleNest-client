@@ -11,16 +11,21 @@ import { FaRegUser } from "react-icons/fa";
 import { TfiAnnouncement } from "react-icons/tfi";
 import useIsActive from "../../../Hooks/useIsActive";
 import Swal from "sweetalert2";
+import useUserRole from "../../../Hooks/useUserRole";
+import Loading from "../../Pages/Shared/Loadings/Loading";
 
 const DashBoardLayout = () => {
   const { user, logOutUser } = use(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+  const { role, roleLoading, roleError } = useUserRole();
+
+  if (roleLoading) return <Loading />;
 
   const handleLogOut = () => {
     logOutUser()
       .then(() => {
         Swal.fire({
-          position: "center",
+          position: "top-end",
           icon: "success",
           title: "Logged out successfully",
           showConfirmButton: false,

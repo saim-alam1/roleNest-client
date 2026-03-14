@@ -7,10 +7,10 @@ import { useForm } from "react-hook-form";
 import uploadProfileImg from "../../../assets/image-upload-icon.png";
 import { AuthContext } from "../../../Contexts/AuthContext";
 import Swal from "sweetalert2";
-import Loading from "../Loadings/Loading";
 import axios from "axios";
 import GoogleLogin from "../Shared/GoogleLogin/GoogleLogin";
 import useAxios from "../../../Hooks/useAxios";
+import Loading from "../Shared/Loadings/Loading";
 
 const Register = () => {
   const [show, setShow] = useState(false);
