@@ -54,7 +54,7 @@ const DashBoardLayout = () => {
       {/* Sidebar */}
       <aside
         className={`
-          fixed lg:static z-50 top-0 left-0 h-screen w-64 px-4 py-8 overflow-y-auto bg-white border-r border-gray-200
+          fixed lg:static shrink-0 z-50 top-0 left-0 h-screen w-64 px-4 py-8 overflow-y-auto bg-white border-r border-gray-200
           transform transition-transform duration-300 flex flex-col
           ${isOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0
         `}
@@ -155,7 +155,7 @@ const DashBoardLayout = () => {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 min-h-screen">
+      <div className="flex-1 min-h-screen flex flex-col">
         {/* Mobile toggle button */}
         <div className="lg:hidden p-4 bg-white shadow flex justify-between items-center">
           <button onClick={() => setIsOpen(true)} className="text-[18px]">
@@ -163,7 +163,9 @@ const DashBoardLayout = () => {
           </button>
         </div>
 
-        <Outlet />
+        <div className="grow lg:px-3">
+          <Outlet />
+        </div>
       </div>
     </div>
   );
