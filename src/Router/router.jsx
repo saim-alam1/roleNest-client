@@ -8,11 +8,11 @@ import Register from "../components/Pages/Register/Register";
 import DashBoardLayout from "../components/Layouts/DashBoardLayout/DashBoardLayout";
 import DashboardHome from "../components/Pages/Dashboard/DashboardHome/DashboardHome";
 import MyProfile from "../components/Pages/Dashboard/MyProfile/MyProfile";
-import PrivateRoutes from "../Contexts/PrivateRoutes/PrivateRoutes";
 import Announcements from "../components/Pages/Dashboard/Announcements/Announcements";
 import MakePayment from "../components/Pages/Dashboard/MakePayment/MakePayment";
 import PaymentHistory from "../components/Pages/Dashboard/PaymentHistory/PaymentHistory";
 import ErrorComponent from "../components/Pages/Shared/Error/ErrorComponent";
+import PrivateRoutes from "../Routes/PrivateRoutes";
 
 const router = createBrowserRouter([
   {
