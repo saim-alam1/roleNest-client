@@ -14,9 +14,10 @@ const useUserRole = () => {
   } = useQuery({
     queryKey: ["user-role", user?.email],
     queryFn: async () => {
-      const res = axiosInstance.get(`/user/${user?.email}/role`);
-      console.log(res);
+      const res = await axiosInstance.get(`/user/${user?.email}/role`);
+      return res.data;
     },
+    enabled: !!user?.email,
   });
 
   return {

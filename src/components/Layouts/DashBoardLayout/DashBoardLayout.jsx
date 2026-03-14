@@ -3,8 +3,11 @@ import { AuthContext } from "../../../Contexts/AuthContext";
 import { Link, NavLink, Outlet } from "react-router";
 import logo from "../../../assets/management.png";
 import {
+  MdDescription,
   MdHistory,
+  MdLocalOffer,
   MdOutlinePayment,
+  MdOutlinePeopleAlt,
   MdOutlineSpaceDashboard,
 } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
@@ -17,9 +20,11 @@ import Loading from "../../Pages/Shared/Loadings/Loading";
 const DashBoardLayout = () => {
   const { user, logOutUser } = use(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
-  const { role, roleLoading, roleError } = useUserRole();
+  const { role, roleLoading } = useUserRole();
 
   if (roleLoading) return <Loading />;
+
+  console.log(role);
 
   const handleLogOut = () => {
     logOutUser()
@@ -87,18 +92,54 @@ const DashBoardLayout = () => {
           <NavLink to="/dashboard" end className={useIsActive}>
             <MdOutlineSpaceDashboard style={{ marginRight: "8px" }} /> Dashboard
           </NavLink>
-          <NavLink to="/dashboard/my-profile" className={useIsActive}>
-            <FaRegUser style={{ marginRight: "8px" }} /> My Profile
-          </NavLink>
-          <NavLink to="/dashboard/announcements" className={useIsActive}>
-            <TfiAnnouncement style={{ marginRight: "8px" }} /> Announcements
-          </NavLink>
-          <NavLink to="/dashboard/make-payment" className={useIsActive}>
-            <MdOutlinePayment style={{ marginRight: "8px" }} /> Make Payment
-          </NavLink>
-          <NavLink to="/dashboard/payment-history" className={useIsActive}>
-            <MdHistory style={{ marginRight: "8px" }} /> Payment History
-          </NavLink>
+
+          {/* Admin Route */}
+          {role === "admin" && (
+            <>
+              <NavLink to="/" className={useIsActive}>
+                <FaRegUser style={{ marginRight: "8px" }} /> Admin Profile
+              </NavLink>
+              <NavLink to="/" className={useIsActive}>
+                <MdOutlinePeopleAlt style={{ marginRight: "8px" }} /> Manage
+                Members
+              </NavLink>
+              <NavLink to="/" className={useIsActive}>
+                <TfiAnnouncement style={{ marginRight: "8px" }} /> Make
+                Announcement
+              </NavLink>
+              <NavLink to="/" className={useIsActive}>
+                <MdDescription style={{ marginRight: "8px" }} /> Agreement
+                Requests
+              </NavLink>
+              <NavLink to="/" className={useIsActive}>
+                <MdLocalOffer style={{ marginRight: "8px" }} /> Manage Coupons
+              </NavLink>
+            </>
+          )}
+
+          {/* Member & User Shared Route */}
+          {(role === "member" || role === "user") && (
+            <>
+              <NavLink to="/dashboard/my-profile" className={useIsActive}>
+                <FaRegUser style={{ marginRight: "8px" }} /> My Profile
+              </NavLink>
+              <NavLink to="/dashboard/announcements" className={useIsActive}>
+                <TfiAnnouncement style={{ marginRight: "8px" }} /> Announcements
+              </NavLink>
+            </>
+          )}
+
+          {/* Member Routes */}
+          {role === "member" && (
+            <>
+              <NavLink to="/dashboard/make-payment" className={useIsActive}>
+                <MdOutlinePayment style={{ marginRight: "8px" }} /> Make Payment
+              </NavLink>
+              <NavLink to="/dashboard/payment-history" className={useIsActive}>
+                <MdHistory style={{ marginRight: "8px" }} /> Payment History
+              </NavLink>
+            </>
+          )}
         </nav>
 
         <div className="flex items-end justify-center h-full ">
