@@ -23,10 +23,10 @@ const ForbiddenAccess = () => {
 
       {/* Button to go back */}
       <Link
-        to="/dashboard/forbidden-access"
-        className="btn btn-primary bg-[#2563eb] hover:bg-[#1550cf] text-white px-6 py-3 rounded-lg shadow-md"
+        to="/dashboard"
+        className="btn bg-[#2563eb] hover:bg-[#1550cf] text-white px-6 py-3 rounded-lg shadow-md"
       >
-        Back Home
+        Back to Dashboard
       </Link>
     </div>
   );

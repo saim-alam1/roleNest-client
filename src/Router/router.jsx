@@ -19,6 +19,7 @@ import ManageMembers from "../components/Pages/Dashboard/Admin/ManageMembers/Man
 import MakeAnnouncement from "../components/Pages/Dashboard/Admin/MakeAnnouncement/MakeAnnouncement";
 import AgreementRequests from "../components/Pages/Dashboard/Admin/AgreementRequests/AgreementRequests";
 import ManageCoupons from "../components/Pages/Dashboard/Admin/ManageCoupons/ManageCoupons";
+import AdminRoutes from "../Routes/AdminRoutes";
 
 const router = createBrowserRouter([
   {
@@ -65,23 +66,43 @@ const router = createBrowserRouter([
       // Admin Route
       {
         path: "admin-profile",
-        element: <AdminProfile />,
+        element: (
+          <AdminRoutes>
+            <AdminProfile />
+          </AdminRoutes>
+        ),
       },
       {
         path: "manage-members",
-        element: <ManageMembers />,
+        element: (
+          <AdminRoutes>
+            <ManageMembers />
+          </AdminRoutes>
+        ),
       },
       {
         path: "make-announcement",
-        element: <MakeAnnouncement />,
+        element: (
+          <AdminRoutes>
+            <MakeAnnouncement />
+          </AdminRoutes>
+        ),
       },
       {
         path: "agreement-requests",
-        element: <AgreementRequests />,
+        element: (
+          <AdminRoutes>
+            <AgreementRequests />
+          </AdminRoutes>
+        ),
       },
       {
         path: "manage-coupons",
-        element: <ManageCoupons />,
+        element: (
+          <AdminRoutes>
+            <ManageCoupons />
+          </AdminRoutes>
+        ),
       },
       // User & Member Shared Components
       {
