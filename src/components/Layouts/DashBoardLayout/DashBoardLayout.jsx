@@ -96,22 +96,22 @@ const DashBoardLayout = () => {
           {/* Admin Route */}
           {role === "admin" && (
             <>
-              <NavLink to="/" className={useIsActive}>
+              <NavLink to="admin-profile" className={useIsActive}>
                 <FaRegUser style={{ marginRight: "8px" }} /> Admin Profile
               </NavLink>
-              <NavLink to="/" className={useIsActive}>
+              <NavLink to="manage-members" className={useIsActive}>
                 <MdOutlinePeopleAlt style={{ marginRight: "8px" }} /> Manage
                 Members
               </NavLink>
-              <NavLink to="/" className={useIsActive}>
+              <NavLink to="make-announcement" className={useIsActive}>
                 <TfiAnnouncement style={{ marginRight: "8px" }} /> Make
                 Announcement
               </NavLink>
-              <NavLink to="/" className={useIsActive}>
+              <NavLink to="agreement-requests" className={useIsActive}>
                 <MdDescription style={{ marginRight: "8px" }} /> Agreement
                 Requests
               </NavLink>
-              <NavLink to="/" className={useIsActive}>
+              <NavLink to="manage-coupons" className={useIsActive}>
                 <MdLocalOffer style={{ marginRight: "8px" }} /> Manage Coupons
               </NavLink>
             </>
