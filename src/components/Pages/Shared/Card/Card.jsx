@@ -4,7 +4,7 @@ import { AuthContext } from "../../../../Contexts/AuthContext";
 import { useLocation, useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const Card = ({ apartmentsCard, alreadyRequested, setAlreadyRequested }) => {
   const { user } = use(AuthContext);
@@ -35,23 +35,13 @@ const Card = ({ apartmentsCard, alreadyRequested, setAlreadyRequested }) => {
       await axios.post("http://localhost:3000/resident", data),
     onSuccess: () => {
       setAlreadyRequested(true);
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Sent request to admin",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      toast.success("Request Sent To Admin");
     },
     onError: (error) => {
       console.log("Card", error);
-      Swal.fire({
-        title: "Error!",
-        text: error.response?.data?.message || "Agreement request failed",
-        icon: "error",
-        showConfirmButton: false,
-        timer: 2000,
-      });
+      toast.error(
+        `${error.response?.data?.message || "Agreement request failed"}`,
+      );
     },
   });
 

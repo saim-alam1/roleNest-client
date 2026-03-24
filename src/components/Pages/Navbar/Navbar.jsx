@@ -4,7 +4,7 @@ import { useState, useEffect, use } from "react";
 import { IoLogIn } from "react-icons/io5";
 import getNavLinkClasses from "../../Utils/getNavLinkClasses";
 import { AuthContext } from "../../../Contexts/AuthContext";
-import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -16,23 +16,11 @@ const Navbar = () => {
   const handleLogout = () => {
     logOutUser()
       .then(() => {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Logged out successfully",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        toast.success("Logged out successfully");
       })
       .catch((error) => {
         const errorMessage = error.message;
-        Swal.fire({
-          title: "Error!",
-          text: `${errorMessage}`,
-          icon: "error",
-          showConfirmButton: false,
-          timer: 2000,
-        });
+        toast.error(`${errorMessage}`);
       });
   };
 

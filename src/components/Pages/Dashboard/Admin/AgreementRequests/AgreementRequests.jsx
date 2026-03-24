@@ -1,18 +1,40 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxios from "../../../../../Hooks/useAxios";
 import Loading from "../../../Shared/Loadings/Loading";
 import AgreementTable from "./AgreementInfo/AgreementTable";
+import { toast } from "react-toastify";
 
 const AgreementRequests = () => {
   const axiosInstance = useAxios();
 
-  const { data: agreementApplications = [], isLoading } = useQuery({
+  const {
+    data: agreementApplications = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["agreement-applications"],
     queryFn: async () => {
       const res = await axiosInstance(`/agreement-requests`);
       return res?.data;
     },
   });
+
+  const acceptAgreementMutation = useMutation({
+    mutationFn: async (applicantEmail) => {
+      return await axiosInstance.patch(`/accept-agreement/${applicantEmail}`);
+    },
+    onSuccess: () => {
+      toast.success("Agreement accepted! User role updated.");
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Server error: ${error.message}`);
+    },
+  });
+
+  const handleAgreement = (applicantEmail) => {
+    acceptAgreementMutation.mutate(applicantEmail);
+  };
 
   if (isLoading) return <Loading />;
 
@@ -43,7 +65,11 @@ const AgreementRequests = () => {
 
           <tbody>
             {agreementApplications.map((application) => (
-              <AgreementTable key={application._id} application={application} />
+              <AgreementTable
+                key={application._id}
+                application={application}
+                handleAgreement={handleAgreement}
+              />
             ))}
           </tbody>
         </table>

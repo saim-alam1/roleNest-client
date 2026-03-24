@@ -5,9 +5,9 @@ import Lottie from "lottie-react";
 import loginAnimation from "../../../assets/Login.json";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../Contexts/AuthContext";
-import Swal from "sweetalert2";
 import GoogleLogin from "../Shared/GoogleLogin/GoogleLogin";
 import Loading from "../Shared/Loadings/Loading";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -29,24 +29,12 @@ const Login = () => {
 
     loginUser(email, password)
       .then(() => {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Logged in successfully",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        toast.success("Logged in successfully");
         navigate(`${location.state ? location.state : "/"}`);
       })
       .catch((error) => {
         const errorMessage = error.message;
-        Swal.fire({
-          title: "Error!",
-          text: `${errorMessage}`,
-          icon: "error",
-          showConfirmButton: false,
-          timer: 2000,
-        });
+        toast.error(`${errorMessage}`);
       });
   };
 

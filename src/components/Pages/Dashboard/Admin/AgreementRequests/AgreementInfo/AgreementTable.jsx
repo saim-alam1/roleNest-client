@@ -1,4 +1,4 @@
-const AgreementTable = ({ application }) => {
+const AgreementTable = ({ application, handleAgreement }) => {
   return (
     <tr key={application._id}>
       <td className="max-w-45 truncate">{application.userName}</td>
@@ -11,7 +11,12 @@ const AgreementTable = ({ application }) => {
       <td>{application.status}</td>
 
       <td>
-        <button className="btn border-none btn-xs btn-success">Accept</button>
+        <button
+          onClick={() => handleAgreement(application.userEmail)}
+          className="btn border-none btn-xs btn-success"
+        >
+          Accept
+        </button>
       </td>
 
       <td>
