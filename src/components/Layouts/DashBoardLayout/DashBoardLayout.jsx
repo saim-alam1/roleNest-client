@@ -13,9 +13,9 @@ import {
 import { FaRegUser } from "react-icons/fa";
 import { TfiAnnouncement } from "react-icons/tfi";
 import useIsActive from "../../../Hooks/useIsActive";
-import Swal from "sweetalert2";
 import useUserRole from "../../../Hooks/useUserRole";
 import Loading from "../../Pages/Shared/Loadings/Loading";
+import { toast } from "react-toastify";
 
 const DashBoardLayout = () => {
   const { user, logOutUser } = use(AuthContext);
@@ -29,23 +29,11 @@ const DashBoardLayout = () => {
   const handleLogOut = () => {
     logOutUser()
       .then(() => {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Logged out successfully",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        toast.success("Logged out successfully");
       })
       .catch((error) => {
         const errorMessage = error.message;
-        Swal.fire({
-          title: "Error!",
-          text: `${errorMessage}`,
-          icon: "error",
-          showConfirmButton: false,
-          timer: 2000,
-        });
+        toast.error(`${errorMessage}`);
       });
   };
 

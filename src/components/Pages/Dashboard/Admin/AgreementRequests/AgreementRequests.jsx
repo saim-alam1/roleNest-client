@@ -32,8 +32,25 @@ const AgreementRequests = () => {
     },
   });
 
-  const handleAgreement = (applicantEmail) => {
+  const rejectAgreementMutation = useMutation({
+    mutationFn: async (applicantEmail) => {
+      return await axiosInstance.patch(`/reject-agreement/${applicantEmail}`);
+    },
+    onSuccess: () => {
+      toast.success("Agreement Rejected. Request Removed");
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Server error: ${error.message}`);
+    },
+  });
+
+  const handleAcceptAgreement = (applicantEmail) => {
     acceptAgreementMutation.mutate(applicantEmail);
+  };
+
+  const handleRejectAgreement = (applicantEmail) => {
+    rejectAgreementMutation.mutate(applicantEmail);
   };
 
   if (isLoading) return <Loading />;
@@ -68,7 +85,8 @@ const AgreementRequests = () => {
               <AgreementTable
                 key={application._id}
                 application={application}
-                handleAgreement={handleAgreement}
+                handleAcceptAgreement={handleAcceptAgreement}
+                handleRejectAgreement={handleRejectAgreement}
               />
             ))}
           </tbody>
