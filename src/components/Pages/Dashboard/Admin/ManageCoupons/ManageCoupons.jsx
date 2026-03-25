@@ -1,13 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxios from "../../../../../Hooks/useAxios";
 import CouponTable from "./CouponTable";
 import Loading from "../../../Shared/Loadings/Loading";
 import { MdNoteAdd } from "react-icons/md";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const ManageCoupons = () => {
   const axiosInstance = useAxios();
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
@@ -21,8 +23,21 @@ const ManageCoupons = () => {
     },
   });
 
-  const handleAddCoupons = (data) => {
-    console.log(data);
+  const addCoupons = useMutation({
+    mutationFn: async (coupon) => {
+      return await axiosInstance.post("/post-coupons", coupon);
+    },
+    onSuccess: () => {
+      toast.success("Successfully Added Coupon");
+      reset();
+    },
+    onError: () => {
+      toast.error("Something Went Wrong");
+    },
+  });
+
+  const handleAddCoupons = (couponData) => {
+    addCoupons.mutate(couponData);
   };
 
   if (isLoading) return <Loading />;
@@ -103,7 +118,7 @@ const ManageCoupons = () => {
             <div className="flex flex-col space-y-1">
               <label className="label">Discount Percentage</label>
               <input
-                type="text"
+                type="number"
                 className="input w-full"
                 placeholder="Discount Percentage"
                 {...register("discountPercentage", { required: true })}
@@ -135,10 +150,10 @@ const ManageCoupons = () => {
               )}
             </div>
 
-            <div className="w-full flex items-center justify-around">
+            <div className="w-full flex items-center">
               <button
                 type="submit"
-                className="btn border-none shadow-none bg-green-400 w-full"
+                className="text-base mt-1 btn border-none w-full shadow-none bg-[#2563eb] text-white hover:bg-[#1550cf]"
               >
                 Publish
               </button>
