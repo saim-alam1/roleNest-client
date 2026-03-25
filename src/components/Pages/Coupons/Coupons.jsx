@@ -4,18 +4,33 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import useAxios from "../../../Hooks/useAxios";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../Shared/Loadings/Loading";
 
-const coupons = [
-  { title: "20% OFF", code: "SAVE20", valid: "Valid till 30 Mar" },
-  { title: "FREE MAINTENANCE", code: "FREE2026", valid: "Valid till 31 Mar" },
-  { title: "10% OFF RENT", code: "RENT10", valid: "Valid till 15 Mar" },
-  { title: "15% OFF", code: "SAVE15", valid: "Valid till 28 Mar" },
-  { title: "Buy 1 Get 1", code: "B1G1", valid: "Valid till 05 Apr" },
-  { title: "30% OFF", code: "SAVE30", valid: "Valid till 10 Apr" },
-  { title: "Free Installation", code: "INSTALL", valid: "Valid till 20 Mar" },
-];
+// const coupons = [
+//   { title: "20% OFF", code: "SAVE20", valid: "Valid till 30 Mar" },
+//   { title: "FREE MAINTENANCE", code: "FREE2026", valid: "Valid till 31 Mar" },
+//   { title: "10% OFF RENT", code: "RENT10", valid: "Valid till 15 Mar" },
+//   { title: "15% OFF", code: "SAVE15", valid: "Valid till 28 Mar" },
+//   { title: "Buy 1 Get 1", code: "B1G1", valid: "Valid till 05 Apr" },
+//   { title: "30% OFF", code: "SAVE30", valid: "Valid till 10 Apr" },
+//   { title: "Free Installation", code: "INSTALL", valid: "Valid till 20 Mar" },
+// ];
 
 const Coupons = () => {
+  const axiosInstance = useAxios();
+
+  const { data: coupons = [], isLoading } = useQuery({
+    queryKey: ["coupons"],
+    queryFn: async () => {
+      const res = await axiosInstance("coupons");
+      return res?.data;
+    },
+  });
+
+  if (isLoading) return <Loading />;
+
   return (
     <div>
       {/* Section Header */}
@@ -47,16 +62,18 @@ const Coupons = () => {
         >
           {coupons.map((coupon, index) => (
             <SwiperSlide key={index}>
-              <div className="card bg-base-100 shadow-lg border border-gray-200 p-6 flex flex-col justify-between h-full">
+              <div className="card bg-base-100 shadow-lg border border-gray-200 p-6 flex flex-col justify-between h-39.75">
                 <h2 className="text-xl font-bold text-center mb-2">
-                  {coupon.title}
+                  {coupon.discountPercentage}% Off
                 </h2>
                 <p className="text-center font-mono mb-2">
                   Code:{" "}
-                  <span className="text-primary font-bold">{coupon.code}</span>
+                  <span className="text-primary font-bold">
+                    {coupon.couponCode}
+                  </span>
                 </p>
                 <p className="text-center text-sm text-gray-500">
-                  {coupon.valid}
+                  {coupon.couponDescription}
                 </p>
               </div>
             </SwiperSlide>
