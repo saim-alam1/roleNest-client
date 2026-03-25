@@ -56,15 +56,13 @@ const AgreementRequests = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <section className="mt-9 space-y-12">
-      <div>
-        <h2 className="text-4xl font-bold text-heading text-center">
-          Agreement Requests
-        </h2>
-      </div>
+    <section className="mt-9 space-y-12 min-w-auto mx-3">
+      <h2 className="text-4xl font-bold text-heading text-center">
+        Agreement Requests
+      </h2>
 
       <div className="overflow-x-auto bg-white rounded-xl shadow w-full">
-        <table className="table table-zebra">
+        <table className="table table-zebra min-w-max overflow-x-auto">
           <thead>
             <tr>
               <th>Name</th>
