@@ -15,7 +15,11 @@ const ManageCoupons = () => {
     formState: { errors },
   } = useForm();
 
-  const { data: loadCoupons = [], isLoading } = useQuery({
+  const {
+    data: loadCoupons = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["load-coupons"],
     queryFn: async () => {
       const res = await axiosInstance("/coupons");
@@ -30,6 +34,7 @@ const ManageCoupons = () => {
     onSuccess: () => {
       toast.success("Successfully Added Coupon");
       reset();
+      refetch();
     },
     onError: () => {
       toast.error("Something Went Wrong");
