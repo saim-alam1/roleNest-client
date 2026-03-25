@@ -1,14 +1,37 @@
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import useAxios from "../../../../../Hooks/useAxios";
+import { toast } from "react-toastify";
 
 const MakeAnnouncement = () => {
   const {
+    reset,
     register,
-    formState: { errors },
     handleSubmit,
+    formState: { errors },
   } = useForm();
+  const axiosInstance = useAxios();
+
+  const makeAnnouncement = useMutation({
+    mutationFn: async (announcementData) => {
+      const res = await axiosInstance.post(
+        "/make-announcement",
+        announcementData,
+      );
+      console.log(res);
+      return res;
+    },
+    onSuccess: () => {
+      toast.success("Announcement posted successfully");
+      reset();
+    },
+    onError: () => {
+      toast.error("Something went wrong");
+    },
+  });
 
   const handleAnnouncement = (announcementData) => {
-    console.log(announcementData);
+    makeAnnouncement.mutate(announcementData);
   };
 
   return (
