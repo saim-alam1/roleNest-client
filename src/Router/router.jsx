@@ -21,6 +21,7 @@ import AgreementRequests from "../components/Pages/Dashboard/Admin/AgreementRequ
 import ManageCoupons from "../components/Pages/Dashboard/Admin/ManageCoupons/ManageCoupons";
 import AdminRoutes from "../Routes/AdminRoutes";
 import MemberRoutes from "../Routes/MemberRoutes";
+import DashBoardRedirects from "../components/Utils/DashBoardRedirects";
 
 const router = createBrowserRouter([
   {
@@ -60,12 +61,19 @@ const router = createBrowserRouter([
       </PrivateRoutes>
     ),
     children: [
+      // {
+      //   index: true,
+      //   Component: DashboardHome,
+      // },
+
       {
         index: true,
-        Component: DashboardHome,
+        element: <DashBoardRedirects />,
       },
+
       // Admin Route
       {
+        index: true,
         path: "admin-profile",
         element: (
           <AdminRoutes>

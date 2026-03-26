@@ -78,10 +78,10 @@ const DashBoardLayout = () => {
 
           {/* Navigation */}
           <nav className="flex flex-col gap-2">
-            <NavLink to="/dashboard" end className={useIsActive}>
+            {/* <NavLink to="/dashboard" end className={useIsActive}>
               <MdOutlineSpaceDashboard style={{ marginRight: "8px" }} />{" "}
               Dashboard
-            </NavLink>
+            </NavLink> */}
 
             {/* Admin Route */}
             {role === "admin" && (
