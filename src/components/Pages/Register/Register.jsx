@@ -65,6 +65,12 @@ const Register = () => {
       })
       .catch((error) => {
         console.log(error);
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: "Registration failed",
+          text: error.message,
+        });
       });
   };
 

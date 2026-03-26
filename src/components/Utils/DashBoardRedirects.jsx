@@ -14,7 +14,7 @@ const DashBoardRedirects = () => {
     return <Navigate to="admin-profile" />;
   }
   if (user && (role === "user" || role === "member")) {
-    return <Navigate to="announcements" replace />;
+    return <Navigate to="my-profile" replace />;
   }
 };
 
