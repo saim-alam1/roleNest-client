@@ -48,7 +48,7 @@ const ManageMembers = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="p-4 md:p-6">
+    <section className="p-4 md:p-6">
       <h2 className="text-2xl md:text-3xl font-bold mb-6">Manage Members</h2>
 
       <div className="overflow-x-auto rounded-xl border border-base-300">
@@ -81,7 +81,7 @@ const ManageMembers = () => {
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
   );
 };
 

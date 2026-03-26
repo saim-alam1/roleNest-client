@@ -1,8 +1,43 @@
+import { useQuery } from "@tanstack/react-query";
+import useAxios from "../../../../Hooks/useAxios";
+import Loading from "../../Shared/Loadings/Loading";
+
 const Announcements = () => {
+  const axiosInstance = useAxios();
+
+  const { data: announcements = [], isLoading } = useQuery({
+    queryKey: ["load-announcements"],
+    queryFn: async () => {
+      const res = await axiosInstance("/announcements");
+      return res?.data;
+    },
+  });
+
+  if (isLoading) return <Loading />;
+
   return (
-    <div>
-      <h1>Announcements</h1>
-    </div>
+    <section className="mt-9 space-y-12 min-w-auto mx-3">
+      <h2 className="text-4xl font-bold text-heading text-center">
+        Admin Announcements
+      </h2>
+
+      <div className="grid md:grid-cols-2 gap-4">
+        {announcements.map((announcement) => (
+          <div
+            key={announcement._id}
+            className="card bg-base-100 shadow-sm hover:shadow-md"
+          >
+            <div className="card-body">
+              <h2 className="card-title">{announcement.announcementTitle}</h2>
+              <hr className="w-11/12 border-gray-500" />
+              <p className="text-[#374151]">
+                {announcement.announcementDescription}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 };
 
