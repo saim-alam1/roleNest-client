@@ -1,14 +1,47 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxios from "../../../../../Hooks/useAxios";
 import Loading from "../../../Shared/Loadings/Loading";
+import { toast } from "react-toastify";
+import { Confirm } from "notiflix/build/notiflix-confirm-aio";
 
 const ManageMembers = () => {
   const axiosInstance = useAxios();
-  const { data: members = [], isLoading } = useQuery({
+  const {
+    data: members = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["loading-member-data"],
     queryFn: async () => {
       const res = await axiosInstance("/manage-members");
       return res?.data;
+    },
+  });
+
+  const handleRemoveMember = (email) => {
+    Confirm.show(
+      "Remove Member",
+      "Are you sure you want to remove this member?",
+      "Yes",
+      "No",
+      () => {
+        removeMember.mutate(email);
+      },
+      () => {},
+      {},
+    );
+  };
+
+  const removeMember = useMutation({
+    mutationFn: async (memberEmail) => {
+      await axiosInstance.patch(`/remove-member/${memberEmail}`);
+    },
+    onSuccess: () => {
+      toast.success("Successfully Removed Member");
+      refetch();
+    },
+    onError: () => {
+      toast.error("Something Went Wrong");
     },
   });
 
@@ -36,7 +69,10 @@ const ManageMembers = () => {
                 <td>{member.userName}</td>
                 <td>{member.userEmail}</td>
                 <td>
-                  <button className="btn btn-sm bg-red-500 hover:bg-red-600 text-white border-none">
+                  <button
+                    onClick={() => handleRemoveMember(member?.userEmail)}
+                    className="btn btn-sm bg-red-500 hover:bg-red-600 text-white border-none"
+                  >
                     Remove
                   </button>
                 </td>
