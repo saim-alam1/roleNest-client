@@ -61,16 +61,10 @@ const router = createBrowserRouter([
       </PrivateRoutes>
     ),
     children: [
-      // {
-      //   index: true,
-      //   Component: DashboardHome,
-      // },
-
       {
         index: true,
         element: <DashBoardRedirects />,
       },
-
       // Admin Route
       {
         index: true,
