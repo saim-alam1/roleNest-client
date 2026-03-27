@@ -4,7 +4,7 @@ import { AuthContext } from "../Contexts/AuthContext";
 import Loading from "../components/Pages/Shared/Loadings/Loading";
 import { Navigate } from "react-router";
 
-const MemberRoutes = () => {
+const MemberRoutes = ({ children }) => {
   const { user, loading } = use(AuthContext);
   const { role, roleLoading } = useUserRole();
 
@@ -13,6 +13,8 @@ const MemberRoutes = () => {
   if (!user || role !== "member") {
     return <Navigate to="/dashboard/forbidden-access" />;
   }
+
+  return children;
 };
 
 export default MemberRoutes;
