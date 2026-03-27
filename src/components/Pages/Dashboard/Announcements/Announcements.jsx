@@ -16,7 +16,7 @@ const Announcements = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <section className="mt-9 space-y-12 min-w-auto mx-3">
+    <section className="mt-9">
       <h2 className="text-4xl font-bold text-heading text-center">
         Admin Announcements
       </h2>
