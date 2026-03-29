@@ -6,7 +6,6 @@ import Login from "../components/Pages/Login/Login";
 import AuthLayout from "../components/Layouts/AuthLayout/AuthLayout";
 import Register from "../components/Pages/Register/Register";
 import DashBoardLayout from "../components/Layouts/DashBoardLayout/DashBoardLayout";
-import DashboardHome from "../components/Pages/Dashboard/DashboardHome/DashboardHome";
 import MyProfile from "../components/Pages/Dashboard/MyProfile/MyProfile";
 import Announcements from "../components/Pages/Dashboard/Announcements/Announcements";
 import MakePayment from "../components/Pages/Dashboard/MakePayment/MakePayment";
@@ -22,6 +21,7 @@ import ManageCoupons from "../components/Pages/Dashboard/Admin/ManageCoupons/Man
 import AdminRoutes from "../Routes/AdminRoutes";
 import MemberRoutes from "../Routes/MemberRoutes";
 import DashBoardRedirects from "../components/Utils/DashBoardRedirects";
+import PaymentForm from "../components/Pages/Dashboard/Payments/Payment";
 
 const router = createBrowserRouter([
   {
@@ -122,6 +122,15 @@ const router = createBrowserRouter([
         element: (
           <MemberRoutes>
             <MakePayment />
+          </MemberRoutes>
+        ),
+      },
+      // Member Route
+      {
+        path: "payment/:id",
+        element: (
+          <MemberRoutes>
+            <PaymentForm />
           </MemberRoutes>
         ),
       },

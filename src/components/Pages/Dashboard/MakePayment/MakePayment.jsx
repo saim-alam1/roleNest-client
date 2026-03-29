@@ -5,12 +5,18 @@ import { useQuery } from "@tanstack/react-query";
 import Loading from "../../Shared/Loadings/Loading";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router";
+// import { loadStripe } from "@stripe/stripe-js";
+// import { Elements } from "@stripe/react-stripe-js";
+// import PaymentForm from "./PaymentForm/PaymentForm";
+
+// const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh");
 
 const MakePayment = () => {
   const { user } = use(AuthContext);
   const axiosInstance = useAxios();
+  const navigate = useNavigate();
   const {
-    reset,
     register,
     getValues,
     handleSubmit,
@@ -26,6 +32,8 @@ const MakePayment = () => {
     },
   });
 
+  console.log(applicantsInfo);
+
   const { data: coupons = [] } = useQuery({
     queryKey: ["coupons"],
     queryFn: async () => {
@@ -37,6 +45,7 @@ const MakePayment = () => {
   const { apartmentNo, blockName, floorNo, rent } = applicantsInfo || {};
 
   const [discountedRent, setDiscountedRent] = useState(rent);
+  const [couponError, setCouponError] = useState("");
 
   const handleApplyCoupons = () => {
     const couponInput = getValues("couponCode");
@@ -45,7 +54,12 @@ const MakePayment = () => {
       (coupon) => coupon.couponCode === couponInput,
     );
 
-    if (!matchedCoupon) return;
+    if (!matchedCoupon) {
+      setCouponError("This coupon don't exist");
+      return;
+    }
+
+    setCouponError("");
 
     const discount = (rent * matchedCoupon?.discountPercentage) / 100;
     const finalRent = rent - discount;
@@ -56,6 +70,7 @@ const MakePayment = () => {
   // Handle Payment
   const handlePayment = (data) => {
     console.log(data);
+    navigate(`/dashboard/payment/${applicantsInfo?._id}`);
   };
 
   if (isLoading) return <Loading />;
@@ -180,6 +195,10 @@ const MakePayment = () => {
               </button>
             </div>
 
+            {couponError && (
+              <p className="text-red-500 text-sm mt-2">{couponError}</p>
+            )}
+
             {discountedRent > 0 && discountedRent !== rent && (
               <p className="mt-3 text-sm color-primary font-medium">
                 Payable Amount After Discount: ৳ {discountedRent}
@@ -187,9 +206,15 @@ const MakePayment = () => {
             )}
           </div>
 
+          {/* <Elements stripe={stripePromise}>
+            <PaymentForm discountedRent={discountedRent} />
+          </Elements> */}
+
           {/* Pay Button */}
           <div className="mt-8 text-right">
-            <button className="btn btn-primary px-8">Pay Now</button>
+            <button type="submit" className="btn btn-primary px-8">
+              Pay Now
+            </button>
           </div>
         </div>
       </form>
