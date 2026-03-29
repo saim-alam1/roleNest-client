@@ -3,15 +3,9 @@ import { AuthContext } from "../../../../Contexts/AuthContext";
 import useAxios from "../../../../Hooks/useAxios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Loading from "../../Shared/Loadings/Loading";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
-// import { loadStripe } from "@stripe/stripe-js";
-// import { Elements } from "@stripe/react-stripe-js";
-// import PaymentForm from "./PaymentForm/PaymentForm";
-
-// const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh");
 
 const MakePayment = () => {
   const { user } = use(AuthContext);
@@ -19,7 +13,6 @@ const MakePayment = () => {
   const navigate = useNavigate();
   const {
     register,
-    getValues,
     handleSubmit,
     formState: { errors },
   } = useForm();
@@ -33,55 +26,15 @@ const MakePayment = () => {
     },
   });
 
-  // console.log(applicantsInfo);
-
-  const { data: coupons = [] } = useQuery({
-    queryKey: ["coupons"],
-    queryFn: async () => {
-      const res = await axiosInstance("/coupons");
-      return res?.data;
-    },
-  });
-
   const { apartmentNo, blockName, floorNo, rent } = applicantsInfo || {};
 
-  const [discountedRent, setDiscountedRent] = useState(rent);
-  const [couponError, setCouponError] = useState("");
-
-  const handleApplyCoupons = () => {
-    const couponInput = getValues("couponCode");
-
-    const matchedCoupon = coupons.find(
-      (coupon) => coupon.couponCode === couponInput,
-    );
-
-    if (!matchedCoupon) {
-      setCouponError("This coupon don't exist");
-      return;
-    }
-
-    setCouponError("");
-
-    const discount = (rent * matchedCoupon?.discountPercentage) / 100;
-    const finalRent = rent - discount;
-
-    setDiscountedRent(finalRent);
-  };
-
-  // Handle Payment
   const handlePayment = (data) => {
-    const { month, couponCode } = data;
+    const { month } = data;
 
-    storePaymentInfo.mutate({
-      month,
-      couponCode,
-      finalRent: couponCode ? discountedRent : rent,
-    });
-
-    // navigate(`/dashboard/payment`);
+    storeRentMonth.mutate({ month });
   };
 
-  const storePaymentInfo = useMutation({
+  const storeRentMonth = useMutation({
     mutationFn: async (paymentInfo) => {
       await axiosInstance.patch(`/payment-info/${user?.email}`, paymentInfo);
     },
@@ -196,7 +149,7 @@ const MakePayment = () => {
           </div>
 
           {/* Coupon Section */}
-          <div className="mt-8">
+          {/* <div className="mt-8">
             <label className="label">Apply Coupon</label>
 
             <div className="flex gap-3">
@@ -225,7 +178,7 @@ const MakePayment = () => {
                 Payable Amount After Discount: ৳ {discountedRent}
               </p>
             )}
-          </div>
+          </div> */}
 
           {/* <Elements stripe={stripePromise}>
             <PaymentForm discountedRent={discountedRent} />
