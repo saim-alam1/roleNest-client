@@ -1,11 +1,12 @@
 import { use } from "react";
 import { AuthContext } from "../../../../Contexts/AuthContext";
 import useAxios from "../../../../Hooks/useAxios";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Loading from "../../Shared/Loadings/Loading";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
+import { toast } from "react-toastify";
 // import { loadStripe } from "@stripe/stripe-js";
 // import { Elements } from "@stripe/react-stripe-js";
 // import PaymentForm from "./PaymentForm/PaymentForm";
@@ -32,7 +33,7 @@ const MakePayment = () => {
     },
   });
 
-  console.log(applicantsInfo);
+  // console.log(applicantsInfo);
 
   const { data: coupons = [] } = useQuery({
     queryKey: ["coupons"],
@@ -69,9 +70,29 @@ const MakePayment = () => {
 
   // Handle Payment
   const handlePayment = (data) => {
-    console.log(data);
-    navigate(`/dashboard/payment/${applicantsInfo?._id}`);
+    const { month, couponCode } = data;
+
+    storePaymentInfo.mutate({
+      month,
+      couponCode,
+      finalRent: couponCode ? discountedRent : rent,
+    });
+
+    // navigate(`/dashboard/payment`);
   };
+
+  const storePaymentInfo = useMutation({
+    mutationFn: async (paymentInfo) => {
+      await axiosInstance.patch(`/payment-info/${user?.email}`, paymentInfo);
+    },
+    onSuccess: () => {
+      navigate(`/dashboard/payment`);
+    },
+    onError: (error) => {
+      const message = error?.response?.data?.message;
+      toast.error(message);
+    },
+  });
 
   if (isLoading) return <Loading />;
 

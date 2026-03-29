@@ -127,7 +127,7 @@ const router = createBrowserRouter([
       },
       // Member Route
       {
-        path: "payment/:id",
+        path: "payment",
         element: (
           <MemberRoutes>
             <PaymentForm />
