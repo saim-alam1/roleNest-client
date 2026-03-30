@@ -77,6 +77,26 @@ const PaymentForm = () => {
   const amountInPoisha = finalRent * 100;
 
   const handlePay = async () => {
+    // 0️⃣ Make sure month is selected
+    if (!month) {
+      toast.error("Please select a month first");
+      return;
+    }
+
+    // Checking if user already paid for this month
+    const { data: existingPayments } = await axiosInstance.get(
+      `/my-payment-history/${user?.email}`,
+    );
+
+    const alreadyPaidThisMonth = existingPayments.find(
+      (p) => p.month === month,
+    );
+
+    if (alreadyPaidThisMonth) {
+      toast.error(`You already paid for ${month}`);
+      return;
+    }
+
     if (!stripe || !elements) return;
 
     const card = elements.getElement(CardElement);
@@ -117,6 +137,7 @@ const PaymentForm = () => {
 
       if (result.error) {
         setError(result.error.message);
+        console.log(result.error.message);
       } else {
         if (result.paymentIntent.status === "succeeded") {
           setError("");
