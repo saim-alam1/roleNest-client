@@ -36,7 +36,7 @@ const MakePayment = () => {
 
   const storeRentMonth = useMutation({
     mutationFn: async (paymentInfo) => {
-      await axiosInstance.patch(`/payment-info/${user?.email}`, paymentInfo);
+      await axiosInstance.patch(`/payment-month/${user?.email}`, paymentInfo);
     },
     onSuccess: () => {
       navigate(`/dashboard/payment`);

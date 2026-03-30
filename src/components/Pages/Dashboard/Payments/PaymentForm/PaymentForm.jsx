@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { use, useState } from "react";
 import { AuthContext } from "../../../../../Contexts/AuthContext";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import useAxios from "../../../../../Hooks/useAxios";
@@ -6,10 +6,12 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import Loading from "../../../Shared/Loadings/Loading";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const PaymentForm = () => {
   const { user } = use(AuthContext);
   const stripe = useStripe();
+  const navigate = useNavigate();
   const elements = useElements();
   const axiosInstance = useAxios();
   const [error, setError] = useState("");
@@ -34,7 +36,7 @@ const PaymentForm = () => {
     },
   });
 
-  const [discountedRent, setDiscountedRent] = useState(rent || 0);
+  const [discountedRent, setDiscountedRent] = useState(0);
   const [couponError, setCouponError] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState("");
 
@@ -68,6 +70,9 @@ const PaymentForm = () => {
     setAppliedCoupon(couponInput);
   };
 
+  const finalRent = appliedCoupon ? discountedRent : rent;
+  const amountInPoisha = finalRent * 100;
+
   const handlePay = async (e) => {
     e.preventDefault();
 
@@ -89,21 +94,48 @@ const PaymentForm = () => {
       console.log("paymentMethod", paymentMethod);
     }
 
-    const paymentInfo = {
-      couponCode: appliedCoupon || null, // null if no coupon
-      finalRent: discountedRent || rent, // use discounted or original rent
-    };
+    // const finalRent = appliedCoupon ? discountedRent : rent;
 
-    console.log(paymentInfo);
+    const res = await axiosInstance.post("create-payment-intent", {
+      amountInPoisha,
+      applicantEmail: user?.email,
+    });
 
-    storePaymentInfo.mutate(paymentInfo);
+    console.log("res from intent", res);
+
+    const clientSecret = res?.data?.clientSecret;
+
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement),
+        billing_details: {
+          name: user?.displayName,
+        },
+      },
+    });
+
+    if (result.error) {
+      console.log(result.error.message);
+    } else {
+      if (result.paymentIntent.status === "succeeded") {
+        console.log("Payment succeeded");
+        console.log(result);
+      }
+    }
+
+    storePaymentInfo.mutate({
+      couponCode: appliedCoupon || null,
+      finalRent,
+    });
   };
 
   const storePaymentInfo = useMutation({
     mutationFn: async (paymentInfo) => {
       await axiosInstance.patch(`/payment-info/${user?.email}`, paymentInfo);
     },
-    onSuccess: () => {},
+    onSuccess: () => {
+      // navigate(`/dashboard/payment-history`);
+    },
     onError: (error) => {
       const message = error?.response?.data?.message;
       toast.error(message);
@@ -121,7 +153,6 @@ const PaymentForm = () => {
         <div className="flex gap-3">
           <input
             type="text"
-            onChange={(e) => setCouponInput(e.target.value)}
             {...register("couponCode")}
             placeholder="Enter coupon code"
             className="input input-bordered w-full"

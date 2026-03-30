@@ -96,7 +96,7 @@ const MyProfile = () => {
 
               <div className="bg-base-200 rounded-xl p-4">
                 <p className="description-text">Rent</p>
-                <p className="text-heading font-semibold">{rent || "None"}</p>
+                <p className="text-heading font-semibold">{rent || "None"}৳</p>
               </div>
 
               <div className="bg-base-200 rounded-xl p-4">
