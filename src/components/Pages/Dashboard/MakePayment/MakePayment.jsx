@@ -1,11 +1,10 @@
 import { use } from "react";
 import { AuthContext } from "../../../../Contexts/AuthContext";
 import useAxios from "../../../../Hooks/useAxios";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Loading from "../../Shared/Loadings/Loading";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { toast } from "react-toastify";
 
 const MakePayment = () => {
   const { user } = use(AuthContext);
@@ -31,21 +30,8 @@ const MakePayment = () => {
   const handlePayment = (data) => {
     const { month } = data;
 
-    storeRentMonth.mutate({ month });
+    navigate("/dashboard/payment", { state: { month } });
   };
-
-  const storeRentMonth = useMutation({
-    mutationFn: async (paymentInfo) => {
-      await axiosInstance.patch(`/payment-month/${user?.email}`, paymentInfo);
-    },
-    onSuccess: () => {
-      navigate(`/dashboard/payment`);
-    },
-    onError: (error) => {
-      const message = error?.response?.data?.message;
-      toast.error(message);
-    },
-  });
 
   if (isLoading) return <Loading />;
 

@@ -6,7 +6,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import Loading from "../../../Shared/Loadings/Loading";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 const PaymentForm = () => {
   const { user } = use(AuthContext);
@@ -15,12 +15,10 @@ const PaymentForm = () => {
   const elements = useElements();
   const axiosInstance = useAxios();
   const [error, setError] = useState("");
-  const {
-    register,
-    getValues,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { reset, register, getValues, handleSubmit } = useForm();
+
+  const location = useLocation();
+  const month = location.state?.month;
 
   const { data: applicantsInfo, isLoading } = useQuery({
     queryKey: ["applicants-info", user?.email],
@@ -127,6 +125,8 @@ const PaymentForm = () => {
 
           // Posting in DB
           storePaymentInfo.mutate({
+            userEmail: user?.email,
+            month,
             couponCode: appliedCoupon || null,
             finalRent,
             transactionId: result.paymentIntent.id,
@@ -138,11 +138,12 @@ const PaymentForm = () => {
 
   const storePaymentInfo = useMutation({
     mutationFn: async (paymentInfo) => {
-      await axiosInstance.patch(`/payment-info/${user?.email}`, paymentInfo);
+      await axiosInstance.post("/payment-history", paymentInfo);
     },
     onSuccess: () => {
       toast.success("Payment Successful");
-      // navigate(`/dashboard/payment-history`);
+      reset();
+      navigate(`/dashboard/payment-history`);
     },
     onError: (error) => {
       const message = error?.response?.data?.message;
