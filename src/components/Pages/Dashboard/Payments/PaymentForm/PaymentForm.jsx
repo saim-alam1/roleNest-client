@@ -15,7 +15,12 @@ const PaymentForm = () => {
   const elements = useElements();
   const axiosInstance = useAxios();
   const [error, setError] = useState("");
-  const { register, getValues } = useForm();
+  const {
+    register,
+    getValues,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const { data: applicantsInfo, isLoading } = useQuery({
     queryKey: ["applicants-info", user?.email],
@@ -73,15 +78,14 @@ const PaymentForm = () => {
   const finalRent = appliedCoupon ? discountedRent : rent;
   const amountInPoisha = finalRent * 100;
 
-  const handlePay = async (e) => {
-    e.preventDefault();
-
+  const handlePay = async () => {
     if (!stripe || !elements) return;
 
     const card = elements.getElement(CardElement);
 
     if (!card) return;
 
+    // Validate the card
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card,
@@ -92,41 +96,44 @@ const PaymentForm = () => {
     } else {
       setError("");
       console.log("paymentMethod", paymentMethod);
-    }
 
-    // const finalRent = appliedCoupon ? discountedRent : rent;
+      // Create payment intent
+      const res = await axiosInstance.post("create-payment-intent", {
+        amountInPoisha,
+        applicantEmail: user?.email,
+      });
 
-    const res = await axiosInstance.post("create-payment-intent", {
-      amountInPoisha,
-      applicantEmail: user?.email,
-    });
+      console.log("res from intent", res);
 
-    console.log("res from intent", res);
+      const clientSecret = res?.data?.clientSecret;
 
-    const clientSecret = res?.data?.clientSecret;
-
-    const result = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: user?.displayName,
+      // Confirm payment
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+          billing_details: {
+            name: user?.displayName,
+          },
         },
-      },
-    });
+      });
 
-    if (result.error) {
-      console.log(result.error.message);
-    } else {
-      if (result.paymentIntent.status === "succeeded") {
-        console.log("Payment succeeded");
-        console.log(result);
+      if (result.error) {
+        setError(result.error.message);
+      } else {
+        if (result.paymentIntent.status === "succeeded") {
+          setError("");
+          console.log("Payment succeeded");
+          console.log(result);
+
+          // Posting in DB
+          storePaymentInfo.mutate({
+            couponCode: appliedCoupon || null,
+            finalRent,
+            transactionId: result.paymentIntent.id,
+          });
+        }
       }
     }
-
-    storePaymentInfo.mutate({
-      couponCode: appliedCoupon || null,
-      finalRent,
-    });
   };
 
   const storePaymentInfo = useMutation({
@@ -134,6 +141,7 @@ const PaymentForm = () => {
       await axiosInstance.patch(`/payment-info/${user?.email}`, paymentInfo);
     },
     onSuccess: () => {
+      toast.success("Payment Successful");
       // navigate(`/dashboard/payment-history`);
     },
     onError: (error) => {
@@ -145,7 +153,7 @@ const PaymentForm = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <form onSubmit={handlePay} className="mt-8 space-y-4">
+    <form onSubmit={handleSubmit(handlePay)} className="mt-8 space-y-4">
       {/* Coupon Section */}
       <div className="mt-8">
         <label className="label">Apply Coupon</label>
