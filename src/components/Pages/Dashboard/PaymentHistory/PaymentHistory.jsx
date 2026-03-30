@@ -37,7 +37,7 @@ const PaymentHistory = () => {
         <p className="text-center text-gray-500">No payment history found.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="table w-full mb-6 border-none">
+          <table className="table table-compact table-zebra w-full">
             <thead>
               <tr>
                 <th>Month</th>
@@ -51,11 +51,10 @@ const PaymentHistory = () => {
                 <th>Apartment No</th>
               </tr>
             </thead>
-            <tbody className="border-0">
+            <tbody>
               {paymentHistory.map((payment) => (
                 <PaymentHistoryTable
                   key={payment._id}
-                  className="border-none"
                   payment={payment}
                   apartmentInfo={apartmentInfo}
                 />
