@@ -77,7 +77,7 @@ const PaymentForm = () => {
   const amountInPoisha = finalRent * 100;
 
   const handlePay = async () => {
-    // 0️⃣ Make sure month is selected
+    // Is Month selected
     if (!month) {
       toast.error("Please select a month first");
       return;
