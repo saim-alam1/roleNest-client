@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import useAxios from "../../../../../Hooks/useAxios";
 import Loading from "../../../Shared/Loadings/Loading";
 import AgreementTable from "./AgreementInfo/AgreementTable";
 import { toast } from "react-toastify";
+import useAxiosSecure from "../../../../../Hooks/useAxiosSecure";
 
 const AgreementRequests = () => {
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
 
   const {
     data: agreementApplications = [],
@@ -14,14 +14,14 @@ const AgreementRequests = () => {
   } = useQuery({
     queryKey: ["agreement-applications"],
     queryFn: async () => {
-      const res = await axiosInstance(`/agreement-requests`);
+      const res = await axiosSecure(`/agreement-requests`);
       return res?.data;
     },
   });
 
   const acceptAgreementMutation = useMutation({
     mutationFn: async (applicantEmail) => {
-      return await axiosInstance.patch(`/accept-agreement/${applicantEmail}`);
+      return await axiosSecure.patch(`/accept-agreement/${applicantEmail}`);
     },
     onSuccess: () => {
       toast.success("Agreement accepted! User role updated.");
@@ -34,7 +34,7 @@ const AgreementRequests = () => {
 
   const rejectAgreementMutation = useMutation({
     mutationFn: async (applicantEmail) => {
-      return await axiosInstance.patch(`/reject-agreement/${applicantEmail}`);
+      return await axiosSecure.patch(`/reject-agreement/${applicantEmail}`);
     },
     onSuccess: () => {
       toast.success("Agreement Rejected. Request Removed");

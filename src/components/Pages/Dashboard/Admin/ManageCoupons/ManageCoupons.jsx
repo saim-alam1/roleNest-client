@@ -1,13 +1,13 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import useAxios from "../../../../../Hooks/useAxios";
 import CouponTable from "./CouponTable";
 import Loading from "../../../Shared/Loadings/Loading";
 import { MdNoteAdd } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import useAxiosSecure from "../../../../../Hooks/useAxiosSecure";
 
 const ManageCoupons = () => {
-  const axiosInstance = useAxios();
+  const axiosInstance = useAxiosSecure();
   const {
     reset,
     register,

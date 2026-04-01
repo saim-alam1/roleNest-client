@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import useAxios from "../../../../../Hooks/useAxios";
 import { toast } from "react-toastify";
+import useAxiosSecure from "../../../../../Hooks/useAxiosSecure";
 
 const MakeAnnouncement = () => {
   const {
@@ -10,11 +10,11 @@ const MakeAnnouncement = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
 
   const makeAnnouncement = useMutation({
     mutationFn: async (announcementData) => {
-      const res = await axiosInstance.post(
+      const res = await axiosSecure.post(
         "/make-announcement",
         announcementData,
       );
