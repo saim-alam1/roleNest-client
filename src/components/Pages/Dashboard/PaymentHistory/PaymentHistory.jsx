@@ -1,18 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { use } from "react";
 import { AuthContext } from "../../../../Contexts/AuthContext";
-import useAxios from "../../../../Hooks/useAxios";
 import Loading from "../../Shared/Loadings/Loading";
 import PaymentHistoryTable from "./PaymentHistoryTable/PaymentHistoryTable";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const PaymentHistory = () => {
   const { user } = use(AuthContext);
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
 
   const { data: paymentHistory = [], isLoading } = useQuery({
     queryKey: ["payment-history", user?.email],
     queryFn: async () => {
-      const res = await axiosInstance(`/my-payment-history/${user?.email}`);
+      const res = await axiosSecure(`/my-payment-history/${user?.email}`);
       return res?.data;
     },
   });
@@ -20,7 +20,7 @@ const PaymentHistory = () => {
   const { data: apartmentInfo = {} } = useQuery({
     queryKey: ["apartment-info", user?.email],
     queryFn: async () => {
-      const res = await axiosInstance(`/apartment-info/${user?.email}`);
+      const res = await axiosSecure(`/apartment-info/${user?.email}`);
       return res?.data;
     },
   });
