@@ -1,18 +1,18 @@
 import { use } from "react";
 import { AuthContext } from "../../../../Contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
-import useAxios from "../../../../Hooks/useAxios";
 import Loading from "../../Shared/Loadings/Loading";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const MyProfile = () => {
   const { user } = use(AuthContext);
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
 
   const { data: applicantsInfo, isLoading } = useQuery({
     queryKey: ["applicants-info", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await axiosInstance(`/approved-agreement/${user?.email}`);
+      const res = await axiosSecure(`/approved-agreement/${user?.email}`);
       return res?.data;
     },
   });

@@ -1,19 +1,19 @@
 import { use, useState } from "react";
 import { AuthContext } from "../../../../../Contexts/AuthContext";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import useAxios from "../../../../../Hooks/useAxios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Loading from "../../../Shared/Loadings/Loading";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router";
+import useAxiosSecure from "../../../../../Hooks/useAxiosSecure";
 
 const PaymentForm = () => {
   const { user } = use(AuthContext);
   const stripe = useStripe();
   const navigate = useNavigate();
   const elements = useElements();
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
   const [error, setError] = useState("");
   const { reset, register, getValues, handleSubmit } = useForm();
 
@@ -24,7 +24,7 @@ const PaymentForm = () => {
     queryKey: ["applicants-info", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await axiosInstance(`/approved-agreement/${user?.email}`);
+      const res = await axiosSecure(`/approved-agreement/${user?.email}`);
       return res?.data;
     },
   });
@@ -34,7 +34,7 @@ const PaymentForm = () => {
   const { data: coupons = [] } = useQuery({
     queryKey: ["coupons"],
     queryFn: async () => {
-      const res = await axiosInstance("/coupons");
+      const res = await axiosSecure("/coupons");
       return res?.data;
     },
   });
@@ -84,7 +84,7 @@ const PaymentForm = () => {
     }
 
     // Checking if user already paid for this month
-    const { data: existingPayments } = await axiosInstance.get(
+    const { data: existingPayments } = await axiosSecure.get(
       `/my-payment-history/${user?.email}`,
     );
 
@@ -116,7 +116,7 @@ const PaymentForm = () => {
       console.log("paymentMethod", paymentMethod);
 
       // Create payment intent
-      const res = await axiosInstance.post("create-payment-intent", {
+      const res = await axiosSecure.post("create-payment-intent", {
         amountInPoisha,
         applicantEmail: user?.email,
       });
@@ -159,7 +159,7 @@ const PaymentForm = () => {
 
   const storePaymentInfo = useMutation({
     mutationFn: async (paymentInfo) => {
-      await axiosInstance.post("/payment-history", paymentInfo);
+      await axiosSecure.post("/payment-history", paymentInfo);
     },
     onSuccess: () => {
       toast.success("Payment Successful");

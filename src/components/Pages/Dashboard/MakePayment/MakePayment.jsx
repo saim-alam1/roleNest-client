@@ -1,14 +1,14 @@
 import { use } from "react";
 import { AuthContext } from "../../../../Contexts/AuthContext";
-import useAxios from "../../../../Hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../Shared/Loadings/Loading";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const MakePayment = () => {
   const { user } = use(AuthContext);
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const {
     register,
@@ -20,7 +20,7 @@ const MakePayment = () => {
     queryKey: ["applicants-info", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await axiosInstance(`/approved-agreement/${user?.email}`);
+      const res = await axiosSecure(`/approved-agreement/${user?.email}`);
       return res?.data;
     },
   });

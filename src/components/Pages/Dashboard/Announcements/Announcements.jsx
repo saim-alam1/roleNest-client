@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxios from "../../../../Hooks/useAxios";
 import Loading from "../../Shared/Loadings/Loading";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const Announcements = () => {
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
 
   const { data: announcements = [], isLoading } = useQuery({
     queryKey: ["load-announcements"],
     queryFn: async () => {
-      const res = await axiosInstance("/announcements");
+      const res = await axiosSecure("/announcements");
       return res?.data;
     },
   });
@@ -17,7 +17,7 @@ const Announcements = () => {
 
   return (
     <section className="mt-9">
-      <h2 className="text-4xl font-bold text-heading text-center">
+      <h2 className="text-4xl font-bold text-heading text-center mb-10">
         Admin Announcements
       </h2>
 
