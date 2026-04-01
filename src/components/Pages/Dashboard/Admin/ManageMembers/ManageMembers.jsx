@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import useAxios from "../../../../../Hooks/useAxios";
 import Loading from "../../../Shared/Loadings/Loading";
 import { toast } from "react-toastify";
 import { Confirm } from "notiflix/build/notiflix-confirm-aio";
+import useAxiosSecure from "../../../../../Hooks/useAxiosSecure";
 
 const ManageMembers = () => {
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
   const {
     data: members = [],
     isLoading,
@@ -13,7 +13,7 @@ const ManageMembers = () => {
   } = useQuery({
     queryKey: ["loading-member-data"],
     queryFn: async () => {
-      const res = await axiosInstance("/manage-members");
+      const res = await axiosSecure("/manage-members");
       return res?.data;
     },
   });
@@ -34,7 +34,7 @@ const ManageMembers = () => {
 
   const removeMember = useMutation({
     mutationFn: async (memberEmail) => {
-      await axiosInstance.patch(`/remove-member/${memberEmail}`);
+      await axiosSecure.patch(`/remove-member/${memberEmail}`);
     },
     onSuccess: () => {
       toast.success("Successfully Removed Member");

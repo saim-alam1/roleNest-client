@@ -24,7 +24,7 @@ const AdminProfile = () => {
       <h2 className="text-4xl font-bold text-heading text-center mb-10">
         Admin Profile
       </h2>
-      <div className="max-w-5xl mx-auto shadow-xl rounded-2xl p-8 border border-base-300">
+      <div className="max-w-5xl mx-auto shadow-md rounded-2xl p-8 border border-base-300">
         {/* Admin Info */}
         <div className="flex flex-col md:flex-row items-center gap-6 border-b pb-6 mb-8">
           <img
