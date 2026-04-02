@@ -1,5 +1,7 @@
 # RoleNest 🏢
 
+**Live Demo:** [https://rolenest-765eb.web.app/](https://rolenest-765eb.web.app/)
+
 ---
 
 ## 🌟 Project Overview
@@ -7,8 +9,6 @@
 **RoleNest** is a full-stack apartment management system built with the MERN stack. It allows users to view available apartments, apply for agreements, make payments, and stay updated with announcements. Admins can manage members, agreements, coupons, and announcements—all through an intuitive dashboard system.
 
 The project implements **role-based access control** with **Firebase authentication** and **JWT middleware**, ensuring enhanced security for all user and admin operations.
-
-**Live Demo:** [https://rolenest-765eb.web.app/](https://rolenest-765eb.web.app/)
 
 ---
 
