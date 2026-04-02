@@ -3,13 +3,14 @@ import { use } from "react";
 import { AuthContext } from "../../../../Contexts/AuthContext";
 import { useLocation, useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { toast } from "react-toastify";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const Card = ({ apartmentsCard, alreadyRequested, setAlreadyRequested }) => {
   const { user } = use(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosSecure = useAxiosSecure();
 
   const { apartmentImage, apartmentNo, blockName, floorNo, rent } =
     apartmentsCard;
@@ -31,8 +32,7 @@ const Card = ({ apartmentsCard, alreadyRequested, setAlreadyRequested }) => {
 
   // Implement JWT
   const agreementMutation = useMutation({
-    mutationFn: async (data) =>
-      await axios.post("http://localhost:3000/resident", data),
+    mutationFn: async (data) => await axiosSecure.post("/resident", data),
     onSuccess: () => {
       setAlreadyRequested(true);
       toast.success("Request Sent To Admin");

@@ -9,8 +9,8 @@ import { AuthContext } from "../../../Contexts/AuthContext";
 import Swal from "sweetalert2";
 import axios from "axios";
 import GoogleLogin from "../Shared/GoogleLogin/GoogleLogin";
-import useAxios from "../../../Hooks/useAxios";
 import Loading from "../Shared/Loadings/Loading";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const Register = () => {
   const [show, setShow] = useState(false);
@@ -18,7 +18,7 @@ const Register = () => {
   const { loading, registerUser, updateUserProfile } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
   const {
     register,
     handleSubmit,
@@ -52,7 +52,7 @@ const Register = () => {
           userName: name,
           userEmail: email,
         };
-        const postUserInfo = await axiosInstance.post("/users", userInfo);
+        const postUserInfo = await axiosSecure.post("/users", userInfo);
 
         Swal.fire({
           position: "top-end",
