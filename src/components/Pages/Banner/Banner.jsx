@@ -11,7 +11,6 @@ import building2 from "../../../assets/2.jpg";
 import building3 from "../../../assets/3.jpg";
 import building4 from "../../../assets/4.jpg";
 import building5 from "../../../assets/5.jpg";
-import { Link } from "react-router";
 
 const slides = [
   {
@@ -94,7 +93,7 @@ const Banner = () => {
                   {slide.description}
                 </p>
 
-                <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+                {/* <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
                   <Link
                     to="/apartment"
                     className="btn bg-blue-600 hover:bg-blue-700 border-none text-white rounded-full px-6 sm:px-8 w-full sm:w-auto shadow-none"
@@ -102,10 +101,10 @@ const Banner = () => {
                     Explore
                   </Link>
 
-                  {/* <button className="btn btn-outline text-white border-white hover:bg-white hover:text-black rounded-full px-6 sm:px-8 w-full sm:w-auto">
+                  <button className="btn btn-outline text-white border-white hover:bg-white hover:text-black rounded-full px-6 sm:px-8 w-full sm:w-auto">
                     Learn More
-                  </button> */}
-                </div>
+                  </button>
+                </div> */}
               </motion.div>
             </div>
           </div>
