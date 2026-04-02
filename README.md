@@ -60,9 +60,9 @@ The project implements **role-based access control** with **Firebase authenticat
 
 ### Frontend
 
-- **React 19**
-- **React Router v7** (Routing & Private Routes)
-- **TailwindCSS 4 + DaisyUI** (Styling & components)
+- **React**
+- **React Router** (Routing & Private Routes)
+- **TailwindCSS + DaisyUI** (Styling & components)
 - **Framer Motion** (Animations)
 - **Swiper** (Banner slider)
 - **Lottie React** (Animations)
@@ -88,10 +88,3 @@ The project implements **role-based access control** with **Firebase authenticat
 - **Notiflix** (Loading/alerts, optional)
 
 ---
-
-## 🚀 Getting Started
-
-1. Clone the repo:
-   ```bash
-   git clone <your-repo-url>
-   ```
