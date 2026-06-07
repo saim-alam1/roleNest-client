@@ -1,12 +1,8 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://role-nest-server.vercel.app",
 });
-
-// const axiosInstance = axios.create({
-//   baseURL: "https://role-nest-server.vercel.app",
-// });
 
 const useAxios = () => {
   return axiosInstance;

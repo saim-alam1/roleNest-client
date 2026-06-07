@@ -2,53 +2,60 @@ import axios from "axios";
 import { use } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 import { toast } from "react-toastify";
-
-const axiosSecure = axios.create({
-  baseURL: "http://localhost:3000",
-});
+import { useEffect } from "react";
 
 // const axiosSecure = axios.create({
-//   baseURL: "https://role-nest-server.vercel.app",
+//   baseURL: "http://localhost:3000",
 // });
+
+const axiosSecure = axios.create({
+  baseURL: "https://role-nest-server.vercel.app",
+});
 
 const useAxiosSecure = () => {
   const { user, logOutUser } = use(AuthContext);
 
-  // Request Interceptor
-  axiosSecure.interceptors.request.use(
-    (config) => {
-      config.headers.Authorization = `Bearer ${user?.accessToken}`;
-      return config;
-    },
-    (error) => {
-      // console.log(error);
-      return Promise.reject(error);
-    },
-  );
+  useEffect(() => {
+    // Request Interceptor
+    const requestInterceptor = axiosSecure.interceptors.request.use(
+      async (config) => {
+        if (user) {
+          try {
+            const token = await user.getIdToken();
+            config.headers.authorization = `Bearer ${token}`;
+          } catch (tokenError) {
+            console.error("Error fetching token:", tokenError);
+          }
+        }
+        return config;
+      },
+      (error) => Promise.reject(error),
+    );
 
-  // Response Interceptor
-  axiosSecure.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    (error) => {
-      if (error.response?.status === 401 || error.response?.status === 403) {
-        logOutUser()
-          .then(() => {
-            toast.success(
-              `Signout user for ${error.response?.status} status code`,
-            );
-          })
-          .catch((error) => {
-            const errorMessage = error.message;
-            toast.error(`${errorMessage}`);
-          });
-      }
-      // console.log("Status:", error.response?.status);
+    // Response Interceptor
+    const responseInterceptor = axiosSecure.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const status = error.response?.status;
 
-      return Promise.reject(error);
-    },
-  );
+        if (status === 401) {
+          toast.error("Session expired. Please log in again.");
+          await logOutUser();
+        }
+
+        if (status === 403) {
+          toast.error("You don't have permission to access this resource.");
+        }
+
+        return Promise.reject(error);
+      },
+    );
+
+    return () => {
+      axiosSecure.interceptors.request.eject(requestInterceptor);
+      axiosSecure.interceptors.response.eject(responseInterceptor);
+    };
+  }, [user, logOutUser]);
 
   return axiosSecure;
 };
