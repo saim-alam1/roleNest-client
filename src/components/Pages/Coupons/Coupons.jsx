@@ -8,23 +8,13 @@ import useAxios from "../../../Hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../Shared/Loadings/Loading";
 
-// const coupons = [
-//   { title: "20% OFF", code: "SAVE20", valid: "Valid till 30 Mar" },
-//   { title: "FREE MAINTENANCE", code: "FREE2026", valid: "Valid till 31 Mar" },
-//   { title: "10% OFF RENT", code: "RENT10", valid: "Valid till 15 Mar" },
-//   { title: "15% OFF", code: "SAVE15", valid: "Valid till 28 Mar" },
-//   { title: "Buy 1 Get 1", code: "B1G1", valid: "Valid till 05 Apr" },
-//   { title: "30% OFF", code: "SAVE30", valid: "Valid till 10 Apr" },
-//   { title: "Free Installation", code: "INSTALL", valid: "Valid till 20 Mar" },
-// ];
-
 const Coupons = () => {
   const axiosInstance = useAxios();
 
   const { data: coupons = [], isLoading } = useQuery({
     queryKey: ["coupons"],
     queryFn: async () => {
-      const res = await axiosInstance("coupons");
+      const res = await axiosInstance("/coupons");
       return res?.data;
     },
   });

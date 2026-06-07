@@ -4,8 +4,12 @@ import { AuthContext } from "../Contexts/AuthContext";
 import { toast } from "react-toastify";
 
 const axiosSecure = axios.create({
-  baseURL: "https://role-nest-server.vercel.app",
+  baseURL: "http://localhost:3000",
 });
+
+// const axiosSecure = axios.create({
+//   baseURL: "https://role-nest-server.vercel.app",
+// });
 
 const useAxiosSecure = () => {
   const { user, logOutUser } = use(AuthContext);
