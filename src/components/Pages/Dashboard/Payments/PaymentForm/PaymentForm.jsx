@@ -113,7 +113,7 @@ const PaymentForm = () => {
       setError(error.message);
     } else {
       setError("");
-      console.log("paymentMethod", paymentMethod);
+      // console.log("paymentMethod", paymentMethod);
 
       // Create payment intent
       const res = await axiosSecure.post("create-payment-intent", {
@@ -121,7 +121,7 @@ const PaymentForm = () => {
         applicantEmail: user?.email,
       });
 
-      console.log("res from intent", res);
+      // console.log("res from intent", res);
 
       const clientSecret = res?.data?.clientSecret;
 
@@ -137,12 +137,12 @@ const PaymentForm = () => {
 
       if (result.error) {
         setError(result.error.message);
-        console.log(result.error.message);
+        // console.log(result.error.message);
       } else {
         if (result.paymentIntent.status === "succeeded") {
           setError("");
-          console.log("Payment succeeded");
-          console.log(result);
+          // console.log("Payment succeeded");
+          // console.log(result);
 
           // Posting in DB
           storePaymentInfo.mutate({

@@ -38,7 +38,7 @@ const Card = ({ apartmentsCard, alreadyRequested, setAlreadyRequested }) => {
       toast.success("Request Sent To Admin");
     },
     onError: (error) => {
-      console.log("Card", error);
+      // console.log("Card", error);
       toast.error(
         `${error.response?.data?.message || "Agreement request failed"}`,
       );

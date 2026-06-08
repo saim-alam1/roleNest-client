@@ -9,7 +9,7 @@ import { useEffect } from "react";
 // });
 
 const axiosSecure = axios.create({
-  baseURL: "https://role-nest-server.vercel.app",
+  baseURL: "https://role-nest-server.vercel.app/",
 });
 
 const useAxiosSecure = () => {

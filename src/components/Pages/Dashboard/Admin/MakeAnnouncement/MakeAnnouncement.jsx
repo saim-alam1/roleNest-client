@@ -18,7 +18,7 @@ const MakeAnnouncement = () => {
         "/make-announcement",
         announcementData,
       );
-      console.log(res);
+      // console.log(res);
       return res;
     },
     onSuccess: () => {

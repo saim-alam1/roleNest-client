@@ -24,7 +24,7 @@ const DashBoardLayout = () => {
 
   if (roleLoading) return <Loading />;
 
-  console.log(role);
+  // console.log(role);
 
   const handleLogOut = () => {
     logOutUser()

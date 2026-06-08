@@ -64,7 +64,7 @@ const Register = () => {
         navigate(`${location.state ? location.state : "/"}`);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         Swal.fire({
           position: "top-end",
           icon: "error",
